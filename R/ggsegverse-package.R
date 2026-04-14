@@ -5,7 +5,6 @@ ignore_unused_imports <- function() {
   ggseg.formats::as_brain_atlas
   ggseg::GeomBrain
   ggseg3d::add_glassbrain
-  ggseg.hub::compare_brain_maps
   neuromapr::annot_to_gifti
   lifecycle::deprecated
 }

@@ -20,7 +20,6 @@ Imports:
     ggseg.formats,
     ggseg,
     ggseg3d,
-    ggseg.hub,
     neuromapr,
     cli,
     rlang,
@@ -30,9 +29,7 @@ Imports:
 Remotes:
     ggseg/ggseg.formats,
     ggseg/ggseg,
-    ggseg/ggseg3d,
-    ggseg/ggseg.hub,
-    ggseg/neuromapr
+    ggseg/ggseg3d
 URL: https://ggseg.github.io/ggsegverse/,
     https://github.com/ggseg/ggsegverse
 BugReports: https://github.com/ggseg/ggsegverse/issues

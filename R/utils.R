@@ -16,7 +16,7 @@ ggsegverse_packages <- function(include_self = TRUE) {
 }
 
 core_packages <- function() {
-  c("ggseg.formats", "ggseg", "ggseg3d", "ggseg.hub", "neuromapr")
+  c("ggseg.formats", "ggseg", "ggseg3d", "neuromapr")
 }
 
 inform_startup <- function(...) {
