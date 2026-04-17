@@ -25,9 +25,6 @@ Imports:
     purrr,
     lifecycle,
     utils
-Remotes:
-    ggsegverse/ggseg.formats,
-    ggsegverse/ggseg3d
 URL: https://ggseg.github.io/ggsegverse/,
     https://github.com/ggsegverse/ggsegverse
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
