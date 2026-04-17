@@ -20,22 +20,17 @@ Imports:
     ggseg.formats,
     ggseg,
     ggseg3d,
-    ggseg.hub,
-    neuromapr,
     cli,
     rlang,
     purrr,
     lifecycle,
     utils
 Remotes:
-    ggseg/ggseg.formats,
-    ggseg/ggseg,
-    ggseg/ggseg3d,
-    ggseg/ggseg.hub,
-    ggseg/neuromapr
+    ggsegverse/ggseg.formats,
+    ggsegverse/ggseg3d
 URL: https://ggseg.github.io/ggsegverse/,
-    https://github.com/ggseg/ggsegverse
-BugReports: https://github.com/ggseg/ggsegverse/issues
+    https://github.com/ggsegverse/ggsegverse
+BugReports: https://github.com/ggsegverse/ggsegverse/issues
 Language: en-US
 Suggests: 
     testthat (>= 3.0.0)
