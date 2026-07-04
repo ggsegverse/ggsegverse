@@ -16,3 +16,8 @@ jobs:
   update-codemeta:
     uses: ggsegverse/.github/.github/workflows/update-codemeta.yaml@main
     secrets: inherit
+    with:
+      # write_codemeta() only reads DESCRIPTION + man/, so there is no need to
+      # build+install the package. Skipping local::. also sidesteps the current
+      # attach.R build break while ggseg.hub is being folded into ggsegverse.
+      extra-packages: any::codemetar
