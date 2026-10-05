@@ -13,7 +13,8 @@ to find Yeo atlas packages).}
 \item{...}{Additional arguments passed to \code{\link[base:grep]{base::grep()}}.}
 }
 \value{
-A tibble of available atlas packages.
+A tibble of available atlas packages, or \code{NULL} invisibly with a
+warning when the r-universe cannot be reached.
 }
 \description{
 Query the ggsegverse r-universe to see which atlas packages are available

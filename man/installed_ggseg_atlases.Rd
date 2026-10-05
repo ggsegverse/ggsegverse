@@ -9,7 +9,7 @@ installed_ggseg_atlases()
 \value{
 A tibble with one row per installed atlas package and columns
 \code{package}, \code{installed} (local version), and \code{available} (version on
-the r-universe).
+the r-universe). Zero rows when the r-universe cannot be reached.
 }
 \description{
 Check which ggseg atlas packages from the ggsegverse r-universe are

@@ -19,8 +19,9 @@ the value of \code{\link[pak:pak]{pak::pak()}} invisibly.
 \description{
 Install an atlas package from the ggsegverse r-universe. This is the
 easiest way to get pre-built atlases like Yeo, Schaefer, Glasser, etc.
-The r-universe is added to pak's repositories for the session, so
-dependencies from the ecosystem resolve too.
+The r-universe is added to pak's repositories for the duration of the
+call, so dependencies from the ecosystem resolve too; the
+\code{repos} option is restored on exit.
 }
 \examples{
 \dontrun{
