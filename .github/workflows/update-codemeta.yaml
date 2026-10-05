@@ -18,6 +18,5 @@ jobs:
     secrets: inherit
     with:
       # write_codemeta() only reads DESCRIPTION + man/, so there is no need to
-      # build+install the package. Skipping local::. also sidesteps the current
-      # attach.R build break while ggseg.hub is being folded into ggsegverse.
+      # build+install the package.
       extra-packages: any::codemetar
