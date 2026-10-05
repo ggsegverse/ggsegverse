@@ -35,6 +35,17 @@ Loading ggsegverse attaches the following packages:
 ggsegverse is for plotting. To build your own atlases, install
 [ggseg.extra](https://ggsegverse.github.io/ggseg.extra/) separately.
 
+## What ggsegverse adds
+
+Beyond attaching those packages, ggsegverse manages the ecosystem: it
+finds and installs atlas packages from the [ggsegverse
+r-universe](https://ggsegverse.r-universe.dev) (`ggseg_atlas_repos()`,
+`installed_ggseg_atlases()`, `install_ggseg_atlas()`,
+`install_ggseg_atlas_all()`), reports what you have against what is
+available (`ggsegverse_packages()`, `ggsegverse_deps()`,
+`ggsegverse_sitrep()`, `ggsegverse_update()`), and reports masking
+between the core packages (`ggsegverse_conflicts()`).
+
 ## Installation
 
 You can install ggsegverse from
@@ -59,7 +70,7 @@ library(ggsegverse)
 #> ── ggsegverse ───────────────────────────────────────────────────────── 0.0.1 ──
 #> ✔ ggseg.formats 0.0.4.9006 ✔ ggseg.meshes 0.0.1.9000
 #> ✔ ggseg 2.2.1.9007 ✔ ggplot2 4.0.3
-#> ✔ ggseg3d 2.1.2.9003
+#> ✔ ggseg3d 2.1.3
 ```
 
 ### Find and install atlases
@@ -68,9 +79,17 @@ More atlases live on the [ggsegverse
 r-universe](https://ggsegverse.r-universe.dev):
 
 ``` r
+# which Yeo atlases are published?
 ggseg_atlas_repos("yeo")
+
+# install one
 install_ggseg_atlas("ggsegYeo2011")
+
+# what do I have, and is it current?
 installed_ggseg_atlases()
+
+# everything at once (asks first; pass ask = FALSE in scripts)
+install_ggseg_atlas_all()
 ```
 
 ### Check for outdated packages
@@ -82,9 +101,9 @@ ggsegverse_sitrep()
 #> 
 #> ── Installed packages ──
 #> 
-#> ✔ ggseg.formats: 0.0.4.9006
+#> ! ggseg.formats: 0.0.4.9006 (update available: 0.0.4.9007)
 #> ✔ ggseg: 2.2.1.9007
-#> ✔ ggseg3d: 2.1.2.9003
+#> ✔ ggseg3d: 2.1.3
 #> ✔ ggseg.meshes: 0.0.1.9000
 #> ✔ ggplot2: 4.0.3
 #> 

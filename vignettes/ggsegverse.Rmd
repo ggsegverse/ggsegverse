@@ -38,6 +38,10 @@ ggsegverse attaches five packages, each handling a different piece of the visual
 You do not need to remember which function lives where.
 Loading ggsegverse makes them all available.
 
+On top of attaching those packages, ggsegverse manages the ecosystem for you.
+`ggseg_atlas_repos()` and `installed_ggseg_atlases()` tell you which atlas packages exist and which ones you already have, `install_ggseg_atlas()` installs them, and `ggsegverse_sitrep()`, `ggsegverse_deps()` and `ggsegverse_conflicts()` tell you what state your installation is in.
+Those are covered below.
+
 ggsegverse is about plotting.
 If you want to build your own atlas from a parcellation, that is the job of [ggseg.extra](https://ggsegverse.github.io/ggseg.extra/), which you install separately.
 
@@ -174,6 +178,15 @@ If disk space is not a concern and you want the full collection:
 #| label: install-all
 #| eval: false
 install_ggseg_atlas_all()
+```
+
+This is a large download, so it asks you to confirm first.
+In a script or a non-interactive session there is nobody to ask, so you have to opt in explicitly:
+
+```{r}
+#| label: install-all-scripted
+#| eval: false
+install_ggseg_atlas_all(ask = FALSE)
 ```
 
 ### Checking what you have
