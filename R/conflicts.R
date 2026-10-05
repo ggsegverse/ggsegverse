@@ -7,14 +7,17 @@
 #' @export
 ggsegverse_conflicts <- function() {
   envs <- grep("^package:", search(), value = TRUE)
-  envs <- purrr::set_names(envs)
-  objs <- invert(purrr::map(envs, ls_env))
+  names(envs) <- envs
+  objs <- invert(lapply(envs, ls_env))
 
   ggseg_pkgs <- paste0("package:", ggsegverse_packages())
-  conflicts <- purrr::keep(objs, ~ length(.x) > 1 && any(.x %in% ggseg_pkgs))
+  conflicts <- Filter(
+    function(x) length(x) > 1 && any(x %in% ggseg_pkgs),
+    objs
+  )
 
-  conflict_funs <- purrr::imap(conflicts, confirm_conflict)
-  conflict_funs <- purrr::compact(conflict_funs)
+  conflict_funs <- Map(confirm_conflict, conflicts, names(conflicts))
+  conflict_funs <- Filter(Negate(is.null), conflict_funs)
 
   structure(conflict_funs, class = "ggsegverse_conflicts")
 }
@@ -24,14 +27,27 @@ confirm_conflict <- function(pkgs, name) {
   ggseg_pkgs <- paste0("package:", ggsegverse_packages())
 
   dominated_ggseg <- dominated[dominated %in% ggseg_pkgs]
-  if (length(dominated_ggseg) == 0) return(NULL)
+  if (length(dominated_ggseg) == 0) {
+    return(NULL)
+  }
+
+  winner <- pkgs[[1]]
+  all_internal <- winner %in% ggseg_pkgs && all(dominated_ggseg == dominated)
+  if (all_internal && winner == "package:ggseg.formats") {
+    return(NULL)
+  }
 
   dominated_ggseg
 }
 
 ls_env <- function(env) {
-  x <- .getNamespaceInfo(asNamespace(gsub("package:", "", env)), "exports")
-  if (inherits(x, "environment")) ls(x) else character()
+  tryCatch(
+    {
+      x <- .getNamespaceInfo(asNamespace(gsub("package:", "", env)), "exports")
+      if (inherits(x, "environment")) ls(x) else character()
+    },
+    error = function(e) character()
+  )
 }
 
 #' @export
@@ -46,28 +62,48 @@ print.ggsegverse_conflicts <- function(x, ...) {
     right = "ggsegverse_conflicts()"
   )
   cli::cli_inform(header)
-  purrr::iwalk(x, function(pkgs, name) {
-    winner <- setdiff(
-      purrr::keep(search(), ~ name %in% ls_env(.x)),
-      pkgs
-    )[[1]]
-    loser <- pkgs[[1]]
-    cli::cli_inform("{cli::col_red(cli::symbol$cross)} {name}: {loser} masks {winner}")
-  })
+  Map(
+    function(pkgs, name) {
+      search_pkgs <- grep("^package:", search(), value = TRUE)
+      winner <- setdiff(
+        Filter(function(p) name %in% ls_env(p), search_pkgs),
+        pkgs
+      )[[1]]
+      loser <- pkgs[[1]]
+      cli::cli_inform(
+        "{cli::col_red(cli::symbol$cross)} {name}: {loser} masks {winner}"
+      )
+    },
+    x,
+    names(x)
+  )
 
   invisible(x)
 }
 
 #' @export
 format.ggsegverse_conflicts <- function(x, ...) {
-  if (length(x) == 0) return("")
+  if (length(x) == 0) {
+    return("")
+  }
 
   header <- cli::rule(
     left = cli::style_bold("Conflicts"),
     right = "ggsegverse_conflicts()"
   )
-  bullets <- purrr::imap_chr(x, function(pkgs, name) {
-    paste0(cli::col_red(cli::symbol$cross), " ", name, ": ", pkgs[[1]], " masks another package")
-  })
-  paste(c(header, bullets), collapse = "\n")
+  bullets <- Map(
+    function(pkgs, name) {
+      paste0(
+        cli::col_red(cli::symbol$cross),
+        " ",
+        name,
+        ": ",
+        pkgs[[1]],
+        " masks another package"
+      )
+    },
+    x,
+    names(x)
+  )
+  paste(c(header, unlist(bullets)), collapse = "\n")
 }

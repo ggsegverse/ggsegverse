@@ -2,9 +2,9 @@
 % Please edit documentation in R/utils.R
 \name{ggsegverse_packages}
 \alias{ggsegverse_packages}
-\title{List all ggsegverse packages}
+\title{List the core ggsegverse packages}
 \usage{
-ggsegverse_packages(include_self = TRUE)
+ggsegverse_packages(include_self = FALSE)
 }
 \arguments{
 \item{include_self}{Whether to include ggsegverse itself in the list.}
@@ -13,5 +13,11 @@ ggsegverse_packages(include_self = TRUE)
 A character vector of package names.
 }
 \description{
-List all ggsegverse packages
+The packages attached by \code{library(ggsegverse)}: ggseg.formats, ggseg,
+ggseg3d, ggseg.meshes, and ggplot2. Atlas packages and the
+atlas-building toolkit ggseg.extra are not core packages; see
+\code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}} for atlases.
+}
+\examples{
+ggsegverse_packages()
 }
