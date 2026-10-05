@@ -36,7 +36,10 @@ URL: https://ggsegverse.github.io/ggsegverse/,
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
 Language: en-US
 Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.1.0

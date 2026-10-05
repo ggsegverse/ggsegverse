@@ -2,13 +2,13 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "ggsegverse",
-  "description": "The 'ggseg' ecosystem is a set of packages for brain region visualization using 'ggplot2'. This package makes it easy to install and load all core packages in a single call. Learn more about the 'ggseg' ecosystem at <https://ggseg.github.io/ggseg/>.",
-  "name": "ggsegverse: Easily Install and Load the 'ggseg' Ecosystem",
-  "relatedLink": "https://ggseg.github.io/ggsegverse/",
+  "description": "Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggseg/>.",
+  "name": "ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem",
+  "relatedLink": "https://ggsegverse.github.io/ggsegverse/",
   "codeRepository": "https://github.com/ggsegverse/ggsegverse",
   "issueTracker": "https://github.com/ggsegverse/ggsegverse/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -24,6 +24,12 @@
       "@id": "https://orcid.org/0000-0002-5756-0223"
     }
   ],
+  "copyrightHolder": [
+    {
+      "@type": "Organization",
+      "name": "Center for Lifespan Changes in Brain and Cognition (LCBC), University of Oslo"
+    }
+  ],
   "maintainer": [
     {
       "@type": "Person",
@@ -34,6 +40,30 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
@@ -93,6 +123,30 @@
     },
     "5": {
       "@type": "SoftwareApplication",
+      "identifier": "ggseg.meshes",
+      "name": "ggseg.meshes",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggseg.meshes"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
       "provider": {
@@ -103,7 +157,44 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    "6": {
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "httr2",
+      "name": "httr2",
+      "version": ">= 1.0.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=httr2"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "pak",
+      "name": "pak",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pak"
+    },
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -115,36 +206,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "7": {
-      "@type": "SoftwareApplication",
-      "identifier": "purrr",
-      "name": "purrr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=purrr"
-    },
-    "8": {
-      "@type": "SoftwareApplication",
-      "identifier": "lifecycle",
-      "name": "lifecycle",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=lifecycle"
-    },
-    "9": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "17.993KB"
+  "fileSize": "65.419KB",
+  "contIntegration": ["https://github.com/ggsegverse/ggsegverse/actions/workflows/R-CMD-check.yaml", "https://github.com/ggsegverse/ggsegverse/actions/workflows/code-quality.yaml", "https://github.com/ggsegverse/ggsegverse/actions/workflows/test-coverage.yaml"],
+  "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental"
 }
