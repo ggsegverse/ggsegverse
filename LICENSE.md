@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2025 Athanasia Mowinckel
+Copyright (c) 2026 Center for Lifespan Changes in Brain and Cognition (LCBC), University of Oslo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
