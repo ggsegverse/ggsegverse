@@ -1,43 +1,62 @@
 #' Conflicts between ggsegverse packages and other loaded packages
 #'
-#' Lists all function name conflicts between ggsegverse packages and
-#' other loaded packages.
+#' Lists objects exported by a core ggsegverse package that mask, or are
+#' masked by, an object of the same name in another attached package.
+#' Re-exports of the identical object (for example `ggseg::dk()`
+#' re-exporting `ggseg.formats::dk()`) are not conflicts and are not
+#' reported.
 #'
-#' @return A `ggsegverse_conflicts` object (invisibly).
+#' Conflicts are shown when ggsegverse is attached. To make every
+#' ambiguous call an error instead, use the conflicted package.
+#'
+#' @return A `ggsegverse_conflicts` object: a named list, one element per
+#'   conflicting name, each holding the `winner` package and the `masked`
+#'   packages.
 #' @export
+#' @examples
+#' ggsegverse_conflicts()
 ggsegverse_conflicts <- function() {
   envs <- grep("^package:", search(), value = TRUE)
   names(envs) <- envs
   objs <- invert(lapply(envs, ls_env))
 
   ggseg_pkgs <- paste0("package:", ggsegverse_packages())
-  conflicts <- Filter(
+  candidates <- Filter(
     function(x) length(x) > 1 && any(x %in% ggseg_pkgs),
     objs
   )
 
-  conflict_funs <- Map(confirm_conflict, conflicts, names(conflicts))
-  conflict_funs <- Filter(Negate(is.null), conflict_funs)
+  conflicts <- Map(
+    confirm_conflict,
+    candidates,
+    names(candidates),
+    MoreArgs = list(ggseg_pkgs = ggseg_pkgs)
+  )
+  conflicts <- Filter(Negate(is.null), conflicts)
 
-  structure(conflict_funs, class = "ggsegverse_conflicts")
+  structure(conflicts, class = "ggsegverse_conflicts")
 }
 
-confirm_conflict <- function(pkgs, name) {
-  dominated <- pkgs[pkgs != pkgs[[1]]]
-  ggseg_pkgs <- paste0("package:", ggsegverse_packages())
-
-  dominated_ggseg <- dominated[dominated %in% ggseg_pkgs]
-  if (length(dominated_ggseg) == 0) {
-    return(NULL)
-  }
-
+confirm_conflict <- function(pkgs, name, ggseg_pkgs) {
   winner <- pkgs[[1]]
-  all_internal <- winner %in% ggseg_pkgs && all(dominated_ggseg == dominated)
-  if (all_internal && winner == "package:ggseg.formats") {
+  winner_obj <- pkg_object(winner, name)
+  masked <- Filter(
+    function(pkg) !identical(pkg_object(pkg, name), winner_obj),
+    pkgs[-1]
+  )
+  if (length(masked) == 0) {
     return(NULL)
   }
 
-  dominated_ggseg
+  if (!any(c(winner, masked) %in% ggseg_pkgs)) {
+    return(NULL)
+  }
+
+  list(winner = winner, masked = masked)
+}
+
+pkg_object <- function(pkg, name) {
+  get0(name, envir = as.environment(pkg), inherits = FALSE)
 }
 
 ls_env <- function(env) {
@@ -54,30 +73,9 @@ ls_env <- function(env) {
 print.ggsegverse_conflicts <- function(x, ...) {
   if (length(x) == 0) {
     cli::cli_inform("No conflicts detected.")
-    return(invisible(x))
+  } else {
+    rlang::inform(format(x))
   }
-
-  header <- cli::rule(
-    left = cli::style_bold("Conflicts"),
-    right = "ggsegverse_conflicts()"
-  )
-  cli::cli_inform(header)
-  Map(
-    function(pkgs, name) {
-      search_pkgs <- grep("^package:", search(), value = TRUE)
-      winner <- setdiff(
-        Filter(function(p) name %in% ls_env(p), search_pkgs),
-        pkgs
-      )[[1]]
-      loser <- pkgs[[1]]
-      cli::cli_inform(
-        "{cli::col_red(cli::symbol$cross)} {name}: {loser} masks {winner}"
-      )
-    },
-    x,
-    names(x)
-  )
-
   invisible(x)
 }
 
@@ -91,19 +89,23 @@ format.ggsegverse_conflicts <- function(x, ...) {
     left = cli::style_bold("Conflicts"),
     right = "ggsegverse_conflicts()"
   )
-  bullets <- Map(
-    function(pkgs, name) {
-      paste0(
-        cli::col_red(cli::symbol$cross),
-        " ",
-        name,
-        ": ",
-        pkgs[[1]],
-        " masks another package"
-      )
-    },
-    x,
-    names(x)
+  bullets <- unlist(Map(format_conflict, x, names(x)), use.names = FALSE)
+  hint <- paste0(
+    cli::col_cyan(cli::symbol$info),
+    " Use the conflicted package to force all conflicts to become errors"
   )
-  paste(c(header, unlist(bullets)), collapse = "\n")
+  paste(c(header, bullets, hint), collapse = "\n")
+}
+
+format_conflict <- function(conflict, name) {
+  qualify <- function(pkg) {
+    paste0(cli::col_blue(sub("^package:", "", pkg)), "::", name)
+  }
+  paste0(
+    cli::col_red(cli::symbol$cross),
+    " ",
+    qualify(conflict$winner),
+    " masks ",
+    paste(vapply(conflict$masked, qualify, character(1)), collapse = ", ")
+  )
 }
