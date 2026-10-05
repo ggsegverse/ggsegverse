@@ -45,6 +45,17 @@ Loading ggsegverse attaches the following packages:
 ggsegverse is for plotting. To build your own atlases, install
 [ggseg.extra](https://ggsegverse.github.io/ggseg.extra/) separately.
 
+## What ggsegverse adds
+
+Beyond attaching those packages, ggsegverse manages the ecosystem: it finds
+and installs atlas packages from the
+[ggsegverse r-universe](https://ggsegverse.r-universe.dev)
+(`ggseg_atlas_repos()`, `installed_ggseg_atlases()`, `install_ggseg_atlas()`,
+`install_ggseg_atlas_all()`), reports what you have against what is available
+(`ggsegverse_packages()`, `ggsegverse_deps()`, `ggsegverse_sitrep()`,
+`ggsegverse_update()`), and reports masking between the core packages
+(`ggsegverse_conflicts()`).
+
 ## Installation
 
 You can install ggsegverse from [GitHub](https://github.com/ggsegverse/ggsegverse):
@@ -70,9 +81,17 @@ library(ggsegverse)
 More atlases live on the [ggsegverse r-universe](https://ggsegverse.r-universe.dev):
 
 ```r
+# which Yeo atlases are published?
 ggseg_atlas_repos("yeo")
+
+# install one
 install_ggseg_atlas("ggsegYeo2011")
+
+# what do I have, and is it current?
 installed_ggseg_atlases()
+
+# everything at once (asks first; pass ask = FALSE in scripts)
+install_ggseg_atlas_all()
 ```
 
 ### Check for outdated packages
