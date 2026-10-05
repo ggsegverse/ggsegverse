@@ -4,14 +4,19 @@
 \alias{install_ggseg_atlas_all}
 \title{Install all available ggseg atlas packages}
 \usage{
-install_ggseg_atlas_all(...)
+install_ggseg_atlas_all(..., ask = TRUE)
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[pak:pak]{pak::pak()}}.}
+
+\item{ask}{Whether to ask for confirmation before installing anything.
+Confirmation can only be given in an interactive session, so
+non-interactive use requires passing \code{ask = FALSE} explicitly.}
 }
 \value{
 Called for its side effect of installing the packages; returns
-the value of \code{\link[pak:pak]{pak::pak()}} invisibly.
+the value of \code{\link[pak:pak]{pak::pak()}} invisibly, or \code{NULL} invisibly when nothing
+was installed.
 }
 \description{
 Downloads and installs every atlas package listed by

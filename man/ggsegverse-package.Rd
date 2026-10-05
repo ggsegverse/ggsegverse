@@ -4,7 +4,7 @@
 \name{ggsegverse-package}
 \alias{ggsegverse}
 \alias{ggsegverse-package}
-\title{ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem}
+\title{ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualization Ecosystem}
 \description{
 Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at \url{https://ggsegverse.github.io/ggseg/}.
 }
@@ -35,7 +35,6 @@ message when loading ggsegverse. Default is \code{FALSE}.}
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://ggsegverse.github.io/ggsegverse/}
   \item \url{https://github.com/ggsegverse/ggsegverse}
   \item Report bugs at \url{https://github.com/ggsegverse/ggsegverse/issues}
 }

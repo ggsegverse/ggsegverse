@@ -39,3 +39,18 @@ local_universe <- function(pkgs, .env = parent.frame()) {
 fake_response <- function(body) {
   structure(list(body = body), class = "httr2_response")
 }
+
+local_offline_universe <- function(.env = parent.frame()) {
+  testthat::local_mocked_bindings(
+    req_perform = function(...) stop("Could not resolve host"),
+    .package = "httr2",
+    .env = .env
+  )
+}
+
+local_atlas_listing <- function(pkgs, .env = parent.frame()) {
+  testthat::local_mocked_bindings(
+    ggseg_atlas_repos = function(...) dplyr::tibble(package = pkgs),
+    .env = .env
+  )
+}
