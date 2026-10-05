@@ -5,52 +5,47 @@ core_unloaded <- function() {
 
 same_library <- function(pkg) {
   loc <- if (pkg %in% loadedNamespaces()) dirname(getNamespaceInfo(pkg, "path"))
-  library(pkg, lib.loc = loc, character.only = TRUE, warn.conflicts = FALSE,
-          quietly = TRUE)
+  library(
+    pkg,
+    lib.loc = loc,
+    character.only = TRUE,
+    warn.conflicts = FALSE,
+    quietly = TRUE
+  )
 }
 
 ggsegverse_attach <- function() {
   to_load <- core_unloaded()
-  if (length(to_load) == 0) return(invisible())
+  if (length(to_load) == 0) {
+    return(invisible())
+  }
 
   suppressPackageStartupMessages(
-    purrr::walk(to_load, same_library)
+    lapply(to_load, same_library)
   )
 
   invisible()
 }
 
 ggsegverse_attach_message <- function() {
-  pkgs <- ggsegverse_packages(include_self = TRUE)
+  pkgs <- ggsegverse_packages(include_self = FALSE)
   header <- cli::rule(
     left = cli::style_bold("ggsegverse"),
     right = utils::packageVersion("ggsegverse")
   )
 
-  n <- length(pkgs)
-  half <- ceiling(n / 2)
-  col1 <- purrr::map_chr(pkgs[seq_len(half)], format_package_line)
-  col2_idx <- seq(half + 1, n)
-  col2 <- if (length(col2_idx) > 0) {
-    purrr::map_chr(pkgs[col2_idx], format_package_line)
-  } else {
-    character()
-  }
-
+  half <- ceiling(length(pkgs) / 2)
+  col1 <- vapply(pkgs[seq_len(half)], format_package_line, character(1))
+  col2 <- vapply(pkgs[-seq_len(half)], format_package_line, character(1))
   col2 <- c(col2, rep("", half - length(col2)))
 
-  info <- purrr::map2_chr(col1, col2, function(x, y) {
-    paste0(x, " ", y)
-  })
+  info <- paste0(col1, " ", col2)
 
   paste0(header, "\n", paste(info, collapse = "\n"))
 }
 
 package_version_string <- function(pkg) {
-  v <- tryCatch(
-    as.character(utils::packageVersion(pkg)),
-    error = function(e) NA_character_
-  )
+  v <- installed_version(pkg)
   if (is.na(v)) "[not installed]" else v
 }
 

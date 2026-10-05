@@ -6,6 +6,20 @@
 \usage{
 ggsegverse_update()
 }
+\value{
+The rows of \code{\link[=ggsegverse_deps]{ggsegverse_deps()}} that are out of date
+(invisibly), or \code{NULL} invisibly when everything is current.
+}
 \description{
-Checks for outdated ggsegverse packages and offers to update them.
+Checks the core ggsegverse packages for newer versions and prints the
+\code{pak::pak()} call that updates them. Nothing is installed
+automatically.
+}
+\examples{
+\dontrun{
+ggsegverse_update()
+}
+}
+\seealso{
+\code{\link[=ggsegverse_sitrep]{ggsegverse_sitrep()}} for a full overview.
 }

@@ -7,9 +7,18 @@
 ggsegverse_deps()
 }
 \value{
-A data frame with columns: \code{package}, \code{local}, \code{available},
-\code{behind}.
+A data frame with columns \code{package}, \code{local} (installed
+version, \code{NA} if not installed), \code{available} (latest version, \code{NA}
+if it could not be retrieved), and \code{behind} (logical).
 }
 \description{
-List ggsegverse package dependencies and versions
+Compares the installed version of each core package with the latest
+available version. ggsegverse packages are checked against the
+\code{main} branch on GitHub; ggplot2 is checked against CRAN. Requires
+an internet connection; versions that cannot be retrieved are \code{NA}.
+}
+\examples{
+\dontrun{
+ggsegverse_deps()
+}
 }
