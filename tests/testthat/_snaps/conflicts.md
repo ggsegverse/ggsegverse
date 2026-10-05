@@ -11,5 +11,6 @@
       print(conflicts)
     Message
       -- Conflicts ----------------------------------------- ggsegverse_conflicts() --
-      x filter: package:ggseg3d masks package:ggseg
+      x ggseg::filter masks stats::filter
+      i Use the conflicted package to force all conflicts to become errors
 
