@@ -24,10 +24,8 @@ for installation. Returns package metadata including name, version,
 and description.
 }
 \details{
-Only atlas packages are listed: those following the \verb{ggseg<Atlas>}
-naming convention (e.g. \code{ggsegYeo2011}, \code{ggsegSchaefer}). Core
-packages and tools hosted on the same r-universe, such as \code{ggseg},
-\code{ggseg3d}, or the atlas-building toolkit \code{ggseg.extra}, are excluded.
+Only \verb{ggseg<Atlas>} packages are listed (e.g. \code{ggsegYeo2011}); core
+packages and tools on the same r-universe are excluded.
 }
 \examples{
 \dontrun{
@@ -40,4 +38,10 @@ ggseg_atlas_repos("yeo")
 }
 \seealso{
 \code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}} to install a specific atlas
+
+Other atlas management:
+\code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}},
+\code{\link[=install_ggseg_atlas_all]{install_ggseg_atlas_all()}},
+\code{\link[=installed_ggseg_atlases]{installed_ggseg_atlases()}}
 }
+\concept{atlas management}

@@ -18,8 +18,17 @@ automatically.
 \examples{
 \dontrun{
 ggsegverse_update()
+#> -- The following packages are out of date: --
+#> * ggseg (2.2.1 -> 2.3.0)
+#> Update with:
+#> pak::pak(c('ggseg'))
 }
 }
 \seealso{
 \code{\link[=ggsegverse_sitrep]{ggsegverse_sitrep()}} for a full overview.
+
+Other diagnostics:
+\code{\link[=ggsegverse_deps]{ggsegverse_deps()}},
+\code{\link[=ggsegverse_sitrep]{ggsegverse_sitrep()}}
 }
+\concept{diagnostics}

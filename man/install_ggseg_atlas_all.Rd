@@ -28,10 +28,19 @@ practical.
 }
 \examples{
 \dontrun{
-# Install everything (slow, large download)
+# Install everything (slow, large download); asks before it starts
 install_ggseg_atlas_all()
+#> ! About to install 24 atlas packages from the ggsegverse r-universe.
+#> i This downloads a large amount of data and takes a long time.
+#> Continue?
 }
 }
 \seealso{
 \code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}} to install specific atlases
+
+Other atlas management:
+\code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}},
+\code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}},
+\code{\link[=installed_ggseg_atlases]{installed_ggseg_atlases()}}
 }
+\concept{atlas management}

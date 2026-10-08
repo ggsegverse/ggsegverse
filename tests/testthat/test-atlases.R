@@ -119,6 +119,24 @@ describe("install_ggseg_atlas()", {
     expect_identical(getOption("repos"), before)
   })
 
+  it("errors without installing when pak is not available", {
+    testthat::local_mocked_bindings(
+      is_installed = function(...) FALSE,
+      .package = "rlang"
+    )
+    rlang::local_interactive(FALSE)
+    expect_error(install_ggseg_atlas("ggsegTest"))
+  })
+
+  it("rejects refs that are not atlas packages", {
+    expect_error(
+      install_ggseg_atlas("url::http://example.com/x.tar.gz"),
+      "not an atlas package"
+    )
+    expect_error(install_ggseg_atlas("ggseg.extra"), "not an atlas package")
+    expect_error(install_ggseg_atlas(character()), "character vector")
+  })
+
   it("passes additional arguments to pak", {
     skip_if_not_installed("pak")
     pak_calls <- NULL

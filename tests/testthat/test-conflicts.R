@@ -57,6 +57,20 @@ describe("confirm_conflict()", {
   })
 })
 
+describe("by_search_order()", {
+  it("puts the package earliest on the search path first", {
+    attached <- grep("^package:", search(), value = TRUE)
+    expect_equal(by_search_order(rev(attached)), attached)
+  })
+
+  it("keeps the search-path winner first regardless of input order", {
+    expect_equal(
+      by_search_order(c("package:base", "package:stats")),
+      c("package:stats", "package:base")
+    )
+  })
+})
+
 describe("pkg_object()", {
   it("returns the object exported from an attached package", {
     expect_identical(pkg_object("package:stats", "median"), stats::median)
