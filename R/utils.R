@@ -20,10 +20,10 @@ core_packages <- function() {
 
 core_package_sources <- function() {
   c(
-    ggseg.formats = "ggsegverse",
-    ggseg = "ggsegverse",
-    ggseg3d = "ggsegverse",
-    ggseg.meshes = "ggsegverse",
+    ggseg.formats = "cran",
+    ggseg = "cran",
+    ggseg3d = "cran",
+    ggseg.meshes = "cran",
     ggplot2 = "cran"
   )
 }

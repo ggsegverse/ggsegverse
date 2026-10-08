@@ -147,7 +147,7 @@ describe("ggsegverse_update()", {
     expect_equal(result$package, "ggseg")
   })
 
-  it("suggests CRAN and GitHub refs together", {
+  it("suggests a pak call for several packages at once", {
     local_deps(
       package = c("ggseg", "ggplot2"),
       local = c("0.1.0", "3.5.0"),
@@ -158,35 +158,49 @@ describe("ggsegverse_update()", {
   })
 })
 
-describe("pak_ref()", {
-  it("prefixes ggsegverse packages with the GitHub org", {
-    expect_equal(pak_ref("ggseg"), "ggsegverse/ggseg")
-  })
-
-  it("leaves CRAN packages unprefixed", {
-    expect_equal(pak_ref("ggplot2"), "ggplot2")
-  })
-
-  it("is vectorised over mixed sources", {
+describe("core_package_sources()", {
+  it("classifies every released core package as CRAN", {
     expect_equal(
-      pak_ref(c("ggseg3d", "ggplot2")),
-      c("ggsegverse/ggseg3d", "ggplot2")
+      unname(core_package_sources()[c("ggseg", "ggseg.formats", "ggseg3d")]),
+      c("cran", "cran", "cran")
+    )
+  })
+})
+
+describe("pak_ref()", {
+  it("leaves CRAN packages unprefixed", {
+    expect_equal(pak_ref(c("ggseg", "ggplot2")), c("ggseg", "ggplot2"))
+  })
+
+  it("prefixes packages that are not on CRAN with the GitHub org", {
+    local_sources(c(ggsegFuture = "ggsegverse", ggplot2 = "cran"))
+    expect_equal(
+      pak_ref(c("ggsegFuture", "ggplot2")),
+      c("ggsegverse/ggsegFuture", "ggplot2")
     )
   })
 })
 
 describe("description_url()", {
-  it("points ggsegverse packages at GitHub main", {
+  it("points released core packages at CRAN", {
     expect_equal(
       description_url("ggseg"),
-      "https://raw.githubusercontent.com/ggsegverse/ggseg/main/DESCRIPTION"
+      "https://cran.r-project.org/web/packages/ggseg/DESCRIPTION"
     )
-  })
-
-  it("points CRAN packages at CRAN", {
     expect_equal(
       description_url("ggplot2"),
       "https://cran.r-project.org/web/packages/ggplot2/DESCRIPTION"
+    )
+  })
+
+  it("points packages that are not on CRAN at GitHub main", {
+    local_sources(c(ggsegFuture = "ggsegverse"))
+    expect_equal(
+      description_url("ggsegFuture"),
+      paste0(
+        "https://raw.githubusercontent.com/ggsegverse/",
+        "ggsegFuture/main/DESCRIPTION"
+      )
     )
   })
 })

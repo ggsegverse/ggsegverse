@@ -10,11 +10,13 @@ ggseg_atlas_repos(pattern = NULL, ...)
 \item{pattern}{Optional regex to filter packages by name (e.g., \code{"yeo"}
 to find Yeo atlas packages).}
 
-\item{...}{Additional arguments passed to \code{\link[base:grep]{base::grep()}}.}
+\item{...}{Additional arguments passed to \code{\link[base:grepl]{base::grepl()}}, such as
+\code{ignore.case} or \code{fixed}.}
 }
 \value{
 A tibble of available atlas packages, or \code{NULL} invisibly with a
-warning when the r-universe cannot be reached.
+warning when the r-universe cannot be reached or returns something
+other than a package index.
 }
 \description{
 Query the ggsegverse r-universe to see which atlas packages are available

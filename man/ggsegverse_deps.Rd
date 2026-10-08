@@ -13,9 +13,10 @@ if it could not be retrieved), and \code{behind} (logical).
 }
 \description{
 Compares the installed version of each core package with the latest
-available version. ggsegverse packages are checked against the
-\code{main} branch on GitHub; ggplot2 is checked against CRAN. Requires
-an internet connection; versions that cannot be retrieved are \code{NA}.
+released version. Core packages are checked against CRAN; packages of
+the ecosystem that are not on CRAN are checked against the \code{main}
+branch on GitHub. Requires an internet connection; versions that
+cannot be retrieved are \code{NA}.
 }
 \examples{
 \dontrun{

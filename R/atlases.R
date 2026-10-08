@@ -11,10 +11,12 @@
 #'
 #' @param pattern Optional regex to filter packages by name (e.g., `"yeo"`
 #'   to find Yeo atlas packages).
-#' @param ... Additional arguments passed to [base::grep()].
+#' @param ... Additional arguments passed to [base::grepl()], such as
+#'   `ignore.case` or `fixed`.
 #'
 #' @return A tibble of available atlas packages, or `NULL` invisibly with a
-#'   warning when the r-universe cannot be reached.
+#'   warning when the r-universe cannot be reached or returns something
+#'   other than a package index.
 #' @seealso [install_ggseg_atlas()] to install a specific atlas
 #' @export
 #' @importFrom dplyr as_tibble
@@ -45,23 +47,44 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
     return(invisible(NULL))
   }
 
-  repos <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-  repos <- repos[is_atlas_package(repos$Package), ]
-
-  if (!is.null(pattern)) {
-    idx <- grep(pattern, repos$Package, ...)
-    repos <- repos[idx, ]
+  repos <- tryCatch(
+    atlas_repos_table(resp),
+    error = function(e) {
+      cli::cli_warn(c(
+        "Unexpected response from the r-universe at {.url {api_url}}.",
+        i = "The service may be down, or a proxy may have replaced the index.",
+        x = conditionMessage(e)
+      ))
+      NULL
+    }
+  )
+  if (is.null(repos)) {
+    return(invisible(NULL))
   }
 
+  if (!is.null(pattern)) {
+    repos <- repos[grepl(pattern, repos$package, ...), , drop = FALSE]
+  }
+  repos
+}
+
+atlas_repos_columns <- function() {
+  c("Package", "Version", "Title", "Description", "License", "URL")
+}
+
+atlas_repos_table <- function(resp) {
+  repos <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  cols <- atlas_repos_columns()
+  absent <- setdiff(cols, names(repos))
+  if (!is.data.frame(repos) || length(absent) > 0) {
+    cli::cli_abort(
+      "The package index is not a table with columns {.field {cols}}.",
+      call = NULL
+    )
+  }
+
+  repos <- repos[is_atlas_package(repos$Package), cols, drop = FALSE]
   repos <- as_tibble(repos)
-  repos <- repos[, c(
-    "Package",
-    "Version",
-    "Title",
-    "Description",
-    "License",
-    "URL"
-  )]
   names(repos) <- tolower(names(repos))
   repos
 }
@@ -118,7 +141,8 @@ install_ggseg_atlas <- function(package, ...) {
 #' @param ... Additional arguments passed to [pak::pak()].
 #' @param ask Whether to ask for confirmation before installing anything.
 #'   Confirmation can only be given in an interactive session, so
-#'   non-interactive use requires passing `ask = FALSE` explicitly.
+#'   non-interactive use requires passing `ask = FALSE` explicitly. Once
+#'   given, the confirmation is not repeated by [pak::pak()].
 #'
 #' @seealso [install_ggseg_atlas()] to install specific atlases
 #' @export
@@ -154,7 +178,7 @@ install_ggseg_atlas_all <- function(..., ask = TRUE) {
     }
   }
 
-  install_ggseg_atlas(packages, ...)
+  install_ggseg_atlas(packages, ..., ask = FALSE)
 }
 
 confirm_install <- function(packages) {

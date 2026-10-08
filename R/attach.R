@@ -4,6 +4,9 @@ core_unloaded <- function() {
 }
 
 same_library <- function(pkg) {
+  if (length(find.package(pkg, quiet = TRUE)) == 0) {
+    return(invisible(FALSE))
+  }
   loc <- if (pkg %in% loadedNamespaces()) dirname(getNamespaceInfo(pkg, "path"))
   library(
     pkg,
@@ -12,6 +15,7 @@ same_library <- function(pkg) {
     warn.conflicts = FALSE,
     quietly = TRUE
   )
+  invisible(TRUE)
 }
 
 ggsegverse_attach <- function() {
@@ -39,7 +43,14 @@ ggsegverse_attach_message <- function() {
   col2 <- vapply(pkgs[-seq_len(half)], format_package_line, character(1))
   col2 <- c(col2, rep("", half - length(col2)))
 
-  info <- paste0(col1, " ", col2)
+  info <- trimws(
+    paste0(
+      cli::ansi_align(col1, width = max(cli::ansi_nchar(col1))),
+      " ",
+      col2
+    ),
+    which = "right"
+  )
 
   paste0(header, "\n", paste(info, collapse = "\n"))
 }
