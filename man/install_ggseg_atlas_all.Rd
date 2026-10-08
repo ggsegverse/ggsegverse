@@ -11,7 +11,8 @@ install_ggseg_atlas_all(..., ask = TRUE)
 
 \item{ask}{Whether to ask for confirmation before installing anything.
 Confirmation can only be given in an interactive session, so
-non-interactive use requires passing \code{ask = FALSE} explicitly.}
+non-interactive use requires passing \code{ask = FALSE} explicitly. Once
+given, the confirmation is not repeated by \code{\link[pak:pak]{pak::pak()}}.}
 }
 \value{
 Called for its side effect of installing the packages; returns

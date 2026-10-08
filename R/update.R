@@ -42,9 +42,10 @@ ggsegverse_update <- function() {
 #' List ggsegverse package dependencies and versions
 #'
 #' Compares the installed version of each core package with the latest
-#' available version. ggsegverse packages are checked against the
-#' `main` branch on GitHub; ggplot2 is checked against CRAN. Requires
-#' an internet connection; versions that cannot be retrieved are `NA`.
+#' released version. Core packages are checked against CRAN; packages of
+#' the ecosystem that are not on CRAN are checked against the `main`
+#' branch on GitHub. Requires an internet connection; versions that
+#' cannot be retrieved are `NA`.
 #'
 #' @return A data frame with columns `package`, `local` (installed
 #'   version, `NA` if not installed), `available` (latest version, `NA`

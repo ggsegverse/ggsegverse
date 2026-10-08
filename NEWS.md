@@ -14,8 +14,8 @@
   them.
 
 * Version reporting: `ggsegverse_packages()` lists the core packages,
-  `ggsegverse_deps()` compares installed against available versions,
-  `ggsegverse_sitrep()` prints a situation report for bug reports, and
+  `ggsegverse_deps()` compares installed against the released versions on
+  CRAN, `ggsegverse_sitrep()` prints a situation report for bug reports, and
   `ggsegverse_update()` prints the `pak::pak()` call that brings the
   ecosystem up to date without installing anything itself.
 

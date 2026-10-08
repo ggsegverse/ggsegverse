@@ -58,14 +58,20 @@ and installs atlas packages from the
 
 ## Installation
 
-You can install ggsegverse from [GitHub](https://github.com/ggsegverse/ggsegverse):
+Install the released version from CRAN:
+
+```r
+install.packages("ggsegverse")
+```
+
+Or the development version from [GitHub](https://github.com/ggsegverse/ggsegverse):
 
 ```r
 # install.packages("pak")
 pak::pak("ggsegverse/ggsegverse")
 ```
 
-This will also install all core packages that are not already on your system.
+Either route also installs all core packages that are not already on your system.
 
 ## Usage
 
@@ -96,8 +102,22 @@ install_ggseg_atlas_all()
 
 ### Check for outdated packages
 
-```{r, warning = FALSE}
+```r
 ggsegverse_sitrep()
+#> 
+#> -- ggsegverse situation report --------------------------------------------
+#> 
+#> -- Installed packages --
+#> 
+#> v ggseg.formats: 0.0.4
+#> v ggseg: 2.2.1
+#> v ggseg3d: 2.1.2
+#> v ggseg.meshes: 0.0.1
+#> v ggplot2: 4.0.3
+#> 
+#> -- R version --
+#> 
+#> R version 4.6.1 (2026-06-30)
 ```
 
 ### List namespace conflicts

@@ -17,10 +17,27 @@ before.
 ```
 * checking CRAN incoming feasibility ... NOTE
   Maintainer: 'Athanasia Mo Mowinckel <a.m.mowinckel@psykologi.uio.no>'
+
   New submission
+
+  Found the following (possibly) invalid URLs:
+    URL: https://ggsegverse.github.io/ggsegverse/
+      From: DESCRIPTION
+            DESCRIPTION
+            man/ggsegverse-package.Rd
+      Status: 404
+      Message: Not Found
 ```
 
-This note is expected for a first submission.
+The "New submission" paragraph is expected for a first submission.
+
+The 404 is the package's own pkgdown site. It is built and deployed by GitHub
+Actions from the submitted tag, so the URL resolves once that workflow has run.
+It is listed in `URL` because `pkgdown::check_pkgdown()` requires it.
+
+The same check run with `_R_CHECK_DEPENDS_ONLY_=true` gives the same result --
+0 errors | 0 warnings | 1 note, that note being the one above -- confirming
+that nothing in Suggests is needed to install, check or use the package.
 
 ## This is not only a re-export shell
 
@@ -41,7 +58,10 @@ ecosystem:
 
 ## Policy notes
 
-* The package imports no package that it does not use, and re-exports nothing.
+* The package re-exports nothing. Five of its imports (ggseg, ggseg.formats,
+  ggseg3d, ggseg.meshes, ggplot2) are attached for the user rather than called
+  by ggsegverse code, so they are referenced once in an unexported
+  `ignore_unused_imports()` helper, the standard idiom for a metapackage.
 * `pak` is in Suggests and is reached only through `rlang::check_installed()`
   at the point of use.
 * `install_ggseg_atlas()` adds the ggsegverse r-universe to `options("repos")`
@@ -53,8 +73,10 @@ ecosystem:
   `R CMD check`. Examples of network-facing functions are wrapped in
   `\dontrun{}`, the vignette chunks that install atlases are not evaluated,
   and the tests mock all HTTP calls. Functions that reach the internet warn
-  and return `NULL` (or a zero-row result) when the resource is unavailable,
-  rather than failing.
-* `Additional_repositories` points at <https://ggsegverse.r-universe.dev>,
-  which hosts the optional atlas packages. No atlas package is required to
-  install, load, check or use ggsegverse.
+  and return `NULL` (or a zero-row result) rather than failing, both when the
+  request fails and when it succeeds with a body that is not the expected
+  package index.
+* The optional atlas packages live on <https://ggsegverse.r-universe.dev>.
+  They are installed at run time by `install_ggseg_atlas()` and are never
+  declared dependencies, so `Additional_repositories` is not set. No atlas
+  package is required to install, load, check or use ggsegverse.

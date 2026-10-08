@@ -36,6 +36,22 @@ local_universe <- function(pkgs, .env = parent.frame()) {
   )
 }
 
+local_sources <- function(sources, .env = parent.frame()) {
+  testthat::local_mocked_bindings(
+    core_package_sources = function() sources,
+    .env = .env
+  )
+}
+
+local_universe_body <- function(body, .env = parent.frame()) {
+  testthat::local_mocked_bindings(
+    req_perform = function(...) structure(list(), class = "httr2_response"),
+    resp_body_json = function(...) body,
+    .package = "httr2",
+    .env = .env
+  )
+}
+
 fake_response <- function(body) {
   structure(list(body = body), class = "httr2_response")
 }

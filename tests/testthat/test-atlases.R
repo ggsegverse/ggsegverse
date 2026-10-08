@@ -20,6 +20,50 @@ describe("ggseg_atlas_repos()", {
     expect_equal(ggseg_atlas_repos()$package, "ggsegYeo2011")
   })
 
+  it("rejects grep-only arguments instead of returning NA rows", {
+    local_universe(c("ggsegYeo", "ggsegDKT"))
+    expect_error(ggseg_atlas_repos("Yeo", value = TRUE), "value")
+  })
+
+  it("passes matching arguments through to grepl", {
+    local_universe(c("ggsegYeo", "ggsegDKT"))
+    expect_equal(
+      ggseg_atlas_repos("yeo", ignore.case = TRUE)$package,
+      "ggsegYeo"
+    )
+  })
+
+  it("warns and returns NULL when the body is not a package index", {
+    local_universe_body("<html>captive portal</html>")
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
+  it("warns and returns NULL when expected columns are missing", {
+    local_universe_body(data.frame(name = "ggsegYeo"))
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
+  it("warns and returns NULL when the body cannot be parsed", {
+    testthat::local_mocked_bindings(
+      req_perform = function(...) structure(list(), class = "httr2_response"),
+      resp_body_json = function(...) stop("Invalid JSON"),
+      .package = "httr2"
+    )
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
   it("warns and returns NULL when the r-universe is unreachable", {
     local_offline_universe()
     expect_warning(
@@ -110,6 +154,22 @@ describe("install_ggseg_atlas_all()", {
     install_ggseg_atlas_all(ask = FALSE)
     expect_equal(pak_calls, c("ggsegA", "ggsegB", "ggsegC"))
     expect_equal(repo_calls$ggsegverse, universe_url())
+  })
+
+  it("does not let pak ask again after its own confirmation", {
+    skip_if_not_installed("pak")
+    pak_args <- NULL
+    local_atlas_listing(c("ggsegA"))
+    rlang::local_interactive(TRUE)
+    local_mocked_bindings(confirm_install = function(packages) TRUE)
+    local_mocked_bindings(
+      repo_add = function(...) invisible(NULL),
+      pak = function(pkg, ...) pak_args <<- list(...),
+      .package = "pak"
+    )
+
+    install_ggseg_atlas_all()
+    expect_false(pak_args$ask)
   })
 
   it("installs after the user confirms interactively", {

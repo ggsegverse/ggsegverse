@@ -48,7 +48,13 @@ between the core packages (`ggsegverse_conflicts()`).
 
 ## Installation
 
-You can install ggsegverse from
+Install the released version from CRAN:
+
+``` r
+install.packages("ggsegverse")
+```
+
+Or the development version from
 [GitHub](https://github.com/ggsegverse/ggsegverse):
 
 ``` r
@@ -56,8 +62,8 @@ You can install ggsegverse from
 pak::pak("ggsegverse/ggsegverse")
 ```
 
-This will also install all core packages that are not already on your
-system.
+Either route also installs all core packages that are not already on
+your system.
 
 ## Usage
 
@@ -68,8 +74,8 @@ conflicts:
 ``` r
 library(ggsegverse)
 #> ── ggsegverse ───────────────────────────────────────────────────────── 0.0.1 ──
-#> ✔ ggseg.formats 0.0.4.9006 ✔ ggseg.meshes 0.0.1.9000
-#> ✔ ggseg 2.2.1.9007 ✔ ggplot2 4.0.3
+#> ✔ ggseg.formats 0.0.4.9008 ✔ ggseg.meshes 0.0.1.9000
+#> ✔ ggseg 2.2.1.9007         ✔ ggplot2 4.0.3
 #> ✔ ggseg3d 2.1.3
 ```
 
@@ -97,19 +103,19 @@ install_ggseg_atlas_all()
 ``` r
 ggsegverse_sitrep()
 #> 
-#> ── ggsegverse situation report ─────────────────────────────────────────────────
+#> -- ggsegverse situation report --------------------------------------------
 #> 
-#> ── Installed packages ──
+#> -- Installed packages --
 #> 
-#> ! ggseg.formats: 0.0.4.9006 (update available: 0.0.4.9007)
-#> ✔ ggseg: 2.2.1.9007
-#> ✔ ggseg3d: 2.1.3
-#> ✔ ggseg.meshes: 0.0.1.9000
-#> ✔ ggplot2: 4.0.3
+#> v ggseg.formats: 0.0.4
+#> v ggseg: 2.2.1
+#> v ggseg3d: 2.1.2
+#> v ggseg.meshes: 0.0.1
+#> v ggplot2: 4.0.3
 #> 
-#> ── R version ──
+#> -- R version --
 #> 
-#> R version 4.6.1 (2026-06-24)
+#> R version 4.6.1 (2026-06-30)
 ```
 
 ### List namespace conflicts
