@@ -76,7 +76,10 @@ ecosystem:
   and return `NULL` (or a zero-row result) rather than failing, both when the
   request fails and when it succeeds with a body that is not the expected
   package index.
-* The optional atlas packages live on <https://ggsegverse.r-universe.dev>.
-  They are installed at run time by `install_ggseg_atlas()` and are never
-  declared dependencies, so `Additional_repositories` is not set. No atlas
+* `Additional_repositories` points at <https://ggsegverse.r-universe.dev>,
+  which serves the pre-release versions of ggseg and ggseg.formats that the
+  `Imports` floors currently require. Those floors become CRAN release
+  numbers at submission, at which point the field is removed. The optional
+  atlas packages are also hosted there, but they are installed at run time by
+  `install_ggseg_atlas()` and are never declared dependencies; no atlas
   package is required to install, load, check or use ggsegverse.
