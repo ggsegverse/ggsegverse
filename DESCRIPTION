@@ -35,7 +35,6 @@ Imports:
 URL: https://ggsegverse.github.io/ggsegverse/,
     https://github.com/ggsegverse/ggsegverse
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
-Additional_repositories: https://ggsegverse.r-universe.dev
 Language: en-US
 Suggests:
     knitr,
