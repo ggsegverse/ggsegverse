@@ -50,27 +50,30 @@ If you want to build your own atlas from a parcellation, that is the job of [ggs
 The ecosystem ships four atlases out of the box: `dk()` (Desikan-Killiany cortical parcellation), `aseg()` (FreeSurfer subcortical segmentation), `tracula()` (white matter tracts), and `suit()` (cerebellar lobules).
 These are accessed as function calls that return atlas objects.
 
-A cortical surface plot uses `geom_brain()`:
+To see an atlas on its own, plot it.
+This draws every view the atlas ships with, each region filled with the colour the atlas itself defines:
 
 ```{r}
 #| label: dk-basic
 #| fig-alt: >
-#|   2D cortical brain plot showing the Desikan-Killiany atlas regions
-#|   colored by label
-#| fig-cap: "The Desikan-Killiany atlas rendered with ggseg's default settings."
-ggplot() +
-  geom_brain(atlas = dk(), show.legend = FALSE)
+#|   Eight 2D views of the cortical surface, each Desikan-Killiany region
+#|   filled with its own atlas colour
+#| fig-cap: "The Desikan-Killiany atlas in its own palette."
+plot(dk())
 ```
 
 The subcortical segmentation works the same way:
 
 ```{r}
 #| label: aseg-basic
-#| fig-alt: "2D axial view of subcortical brain structures from the aseg atlas"
+#| fig-alt: >
+#|   Seven 2D slice views of subcortical structures, each aseg region filled
+#|   with its own atlas colour against a grey brain outline
 #| fig-cap: "FreeSurfer's automatic subcortical segmentation atlas."
-ggplot() +
-  geom_brain(atlas = aseg(), show.legend = FALSE)
+plot(aseg())
 ```
+
+`geom_brain()` is for mapping *your* data onto an atlas, which is the next section.
 
 ## Mapping your own data
 

@@ -19,9 +19,14 @@ the value of \code{\link[pak:pak]{pak::pak()}} invisibly.
 \description{
 Install an atlas package from the ggsegverse r-universe. This is the
 easiest way to get pre-built atlases like Yeo, Schaefer, Glasser, etc.
+}
+\details{
 The r-universe is added to pak's repositories for the duration of the
-call, so dependencies from the ecosystem resolve too; the
-\code{repos} option is restored on exit.
+call, so dependencies from the ecosystem resolve too; the \code{repos}
+option is restored on exit.
+
+Only atlas packages are accepted. To install anything else, call
+\code{\link[pak:pak]{pak::pak()}} directly.
 }
 \examples{
 \dontrun{
@@ -34,4 +39,10 @@ install_ggseg_atlas("ggsegYeo2011")
 }
 \seealso{
 \code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}} to list available atlases
+
+Other atlas management:
+\code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}},
+\code{\link[=install_ggseg_atlas_all]{install_ggseg_atlas_all()}},
+\code{\link[=installed_ggseg_atlases]{installed_ggseg_atlases()}}
 }
+\concept{atlas management}

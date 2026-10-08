@@ -17,8 +17,20 @@ to include when reporting a bug.
 \examples{
 \dontrun{
 ggsegverse_sitrep()
+#> -- ggsegverse situation report --
+#> -- Installed packages --
+#> v ggseg.formats: 1.0.0
+#> ! ggseg: 2.2.1 (update available: 2.3.0)
+#> x ggseg3d: not installed
+#> -- R version --
+#> R version 4.5.1 (2025-06-13)
 }
 }
 \seealso{
 \code{\link[=ggsegverse_update]{ggsegverse_update()}} to get the update command.
+
+Other diagnostics:
+\code{\link[=ggsegverse_deps]{ggsegverse_deps()}},
+\code{\link[=ggsegverse_update]{ggsegverse_update()}}
 }
+\concept{diagnostics}

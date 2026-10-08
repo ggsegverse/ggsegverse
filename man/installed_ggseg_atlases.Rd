@@ -19,9 +19,20 @@ what is available.
 \examples{
 \dontrun{
 installed_ggseg_atlases()
+#> # A tibble: 2 x 3
+#>   package      installed available
+#>   <chr>        <chr>     <chr>
+#> 1 ggsegYeo2011 1.0.1     1.0.1
+#> 2 ggsegGlasser 1.0.0     1.1.0
 }
 }
 \seealso{
 \code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}} to list all available atlases,
 \code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}} to install one
+
+Other atlas management:
+\code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}},
+\code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}},
+\code{\link[=install_ggseg_atlas_all]{install_ggseg_atlas_all()}}
 }
+\concept{atlas management}

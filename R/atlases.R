@@ -4,10 +4,8 @@
 #' for installation. Returns package metadata including name, version,
 #' and description.
 #'
-#' Only atlas packages are listed: those following the `ggseg<Atlas>`
-#' naming convention (e.g. `ggsegYeo2011`, `ggsegSchaefer`). Core
-#' packages and tools hosted on the same r-universe, such as `ggseg`,
-#' `ggseg3d`, or the atlas-building toolkit `ggseg.extra`, are excluded.
+#' Only `ggseg<Atlas>` packages are listed (e.g. `ggsegYeo2011`); core
+#' packages and tools on the same r-universe are excluded.
 #'
 #' @param pattern Optional regex to filter packages by name (e.g., `"yeo"`
 #'   to find Yeo atlas packages).
@@ -17,6 +15,7 @@
 #' @return A tibble of available atlas packages, or `NULL` invisibly with a
 #'   warning when the r-universe cannot be reached or returns something
 #'   other than a package index.
+#' @family atlas management
 #' @seealso [install_ggseg_atlas()] to install a specific atlas
 #' @export
 #' @importFrom dplyr as_tibble
@@ -32,6 +31,7 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
   api_url <- paste0(universe_url(), "/api/packages")
   resp <- tryCatch(
     httr2::request(api_url) |>
+      httr2::req_user_agent(ggsegverse_user_agent()) |>
       httr2::req_timeout(30) |>
       httr2::req_perform(),
     error = function(e) {
@@ -102,14 +102,20 @@ is_atlas_package <- function(pkg) {
 #'
 #' Install an atlas package from the ggsegverse r-universe. This is the
 #' easiest way to get pre-built atlases like Yeo, Schaefer, Glasser, etc.
+#'
+#' @details
 #' The r-universe is added to pak's repositories for the duration of the
-#' call, so dependencies from the ecosystem resolve too; the
-#' `repos` option is restored on exit.
+#' call, so dependencies from the ecosystem resolve too; the `repos`
+#' option is restored on exit.
+#'
+#' Only atlas packages are accepted. To install anything else, call
+#' [pak::pak()] directly.
 #'
 #' @param package Package name (e.g., `"ggsegYeo2011"`, `"ggsegSchaefer"`).
 #'   Use [ggseg_atlas_repos()] to see available packages.
 #' @param ... Additional arguments passed to [pak::pak()].
 #'
+#' @family atlas management
 #' @seealso [ggseg_atlas_repos()] to list available atlases
 #' @export
 #' @return Called for its side effect of installing the package; returns
@@ -123,6 +129,7 @@ is_atlas_package <- function(pkg) {
 #' install_ggseg_atlas("ggsegYeo2011")
 #' }
 install_ggseg_atlas <- function(package, ...) {
+  check_atlas_packages(package)
   rlang::check_installed("pak", reason = "to install ggseg atlas packages.")
   withr::local_options(repos = getOption("repos"))
   pak::repo_add(ggsegverse = universe_url())
@@ -138,12 +145,13 @@ install_ggseg_atlas <- function(package, ...) {
 #' installing individual atlases with [install_ggseg_atlas()] is more
 #' practical.
 #'
-#' @param ... Additional arguments passed to [pak::pak()].
+#' @inheritParams install_ggseg_atlas
 #' @param ask Whether to ask for confirmation before installing anything.
 #'   Confirmation can only be given in an interactive session, so
 #'   non-interactive use requires passing `ask = FALSE` explicitly. Once
 #'   given, the confirmation is not repeated by [pak::pak()].
 #'
+#' @family atlas management
 #' @seealso [install_ggseg_atlas()] to install specific atlases
 #' @export
 #' @return Called for its side effect of installing the packages; returns
@@ -151,8 +159,11 @@ install_ggseg_atlas <- function(package, ...) {
 #'   was installed.
 #' @examples
 #' \dontrun{
-#' # Install everything (slow, large download)
+#' # Install everything (slow, large download); asks before it starts
 #' install_ggseg_atlas_all()
+#' #> ! About to install 24 atlas packages from the ggsegverse r-universe.
+#' #> i This downloads a large amount of data and takes a long time.
+#' #> Continue?
 #' }
 install_ggseg_atlas_all <- function(..., ask = TRUE) {
   available <- ggseg_atlas_repos()
@@ -181,6 +192,28 @@ install_ggseg_atlas_all <- function(..., ask = TRUE) {
   install_ggseg_atlas(packages, ..., ask = FALSE)
 }
 
+check_atlas_packages <- function(package, call = rlang::caller_env()) {
+  if (!is.character(package) || length(package) == 0) {
+    cli::cli_abort(
+      "{.arg package} must be a character vector of atlas package names.",
+      call = call
+    )
+  }
+  bad <- package[!is_atlas_package(package)]
+  if (length(bad) > 0) {
+    cli::cli_abort(
+      c(
+        "{.val {bad}} {?is not an atlas package/are not atlas packages}.",
+        i = "Atlas packages are named {.code ggseg<Atlas>}, as listed by
+             {.fun ggseg_atlas_repos}.",
+        i = "To install anything else, call {.fun pak::pak} directly."
+      ),
+      call = call
+    )
+  }
+  invisible(package)
+}
+
 confirm_install <- function(packages) {
   cli::cli_inform(c(
     "!" = paste(
@@ -202,12 +235,18 @@ confirm_install <- function(packages) {
 #' @return A tibble with one row per installed atlas package and columns
 #'   `package`, `installed` (local version), and `available` (version on
 #'   the r-universe). Zero rows when the r-universe cannot be reached.
+#' @family atlas management
 #' @seealso [ggseg_atlas_repos()] to list all available atlases,
 #'   [install_ggseg_atlas()] to install one
 #' @export
 #' @examples
 #' \dontrun{
 #' installed_ggseg_atlases()
+#' #> # A tibble: 2 x 3
+#' #>   package      installed available
+#' #>   <chr>        <chr>     <chr>
+#' #> 1 ggsegYeo2011 1.0.1     1.0.1
+#' #> 2 ggsegGlasser 1.0.0     1.1.0
 #' }
 installed_ggseg_atlases <- function() {
   available <- ggseg_atlas_repos()
