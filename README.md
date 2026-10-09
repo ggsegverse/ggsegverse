@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggsegverse
+# ggsegverse <img src="man/figures/logo.png" align="right" height="138" alt="ggsegverse hex logo" />
 
 <!-- badges: start -->
 
