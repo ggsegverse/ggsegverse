@@ -13,3 +13,4 @@
 ^revdep$
 ^.*\.Rcheck$
 ^.*\.tar\.gz$
+^data-raw$
