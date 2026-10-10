@@ -25,7 +25,7 @@ Imports:
     dplyr (>= 1.1.0),
     ggplot2 (>= 3.5.0),
     ggseg (>= 2.2.1.9007),
-    ggseg.formats (>= 0.0.4.9008),
+    ggseg.formats (>= 0.0.4.9010),
     ggseg.meshes (>= 0.0.1),
     ggseg3d (>= 2.1.2),
     httr2 (>= 1.0.0),
