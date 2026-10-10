@@ -13,12 +13,20 @@ if it could not be retrieved), and \code{behind} (logical).
 }
 \description{
 Compares the installed version of each core package with the latest
-available version. ggsegverse packages are checked against the
-\code{main} branch on GitHub; ggplot2 is checked against CRAN. Requires
-an internet connection; versions that cannot be retrieved are \code{NA}.
+version released on CRAN. Requires an internet connection; versions
+that cannot be retrieved are \code{NA}.
 }
 \examples{
 \dontrun{
 ggsegverse_deps()
+#>         package local available behind
+#> 1 ggseg.formats  1.0.0     1.0.0  FALSE
+#> 2         ggseg  2.2.1     2.3.0   TRUE
 }
 }
+\seealso{
+Other diagnostics:
+\code{\link[=ggsegverse_sitrep]{ggsegverse_sitrep()}},
+\code{\link[=ggsegverse_update]{ggsegverse_update()}}
+}
+\concept{diagnostics}

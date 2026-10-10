@@ -24,6 +24,19 @@ describe("format_package_line()", {
   })
 })
 
+describe("same_library()", {
+  it("declines a package that is not installed instead of erroring", {
+    expect_false(same_library("notarealpackage999"))
+  })
+})
+
+describe("ggsegverse_attach()", {
+  it("does not error when a core package is missing", {
+    local_mocked_bindings(core_unloaded = function() "notarealpackage999")
+    expect_invisible(ggsegverse_attach())
+  })
+})
+
 describe("core_unloaded()", {
   it("returns a character vector", {
     result <- core_unloaded()
@@ -43,6 +56,24 @@ describe("ggsegverse_attach_message()", {
     msg <- ggsegverse_attach_message()
     expect_type(msg, "character")
     expect_match(msg, "ggsegverse")
+  })
+
+  it("aligns the second column across rows", {
+    local_mocked_bindings(
+      ggsegverse_packages = function(...) {
+        c("ggseg", "ggseg.formats", "ggseg3d", "ggplot2")
+      }
+    )
+    lines <- strsplit(ggsegverse_attach_message(), "\n")[[1]][-1]
+    offsets <- vapply(
+      lines,
+      function(line) {
+        cli::ansi_nchar(cli::ansi_strsplit(line, cli::symbol$tick)[[1]][2])
+      },
+      integer(1),
+      USE.NAMES = FALSE
+    )
+    expect_length(unique(offsets), 1L)
   })
 
   it("handles odd number of packages", {

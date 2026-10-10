@@ -6,6 +6,7 @@
 #' [ggseg_atlas_repos()] for atlases.
 #'
 #' @param include_self Whether to include ggsegverse itself in the list.
+#'   Defaults to `FALSE`.
 #' @return A character vector of package names.
 #' @export
 #' @examples
@@ -20,10 +21,10 @@ core_packages <- function() {
 
 core_package_sources <- function() {
   c(
-    ggseg.formats = "ggsegverse",
-    ggseg = "ggsegverse",
-    ggseg3d = "ggsegverse",
-    ggseg.meshes = "ggsegverse",
+    ggseg.formats = "cran",
+    ggseg = "cran",
+    ggseg3d = "cran",
+    ggseg.meshes = "cran",
     ggplot2 = "cran"
   )
 }
@@ -43,6 +44,14 @@ inform_startup <- function(...) {
   rlang::inform(paste0(...), class = "packageStartupMessage")
 }
 # nocov end
+
+ggsegverse_user_agent <- function() {
+  paste0(
+    "ggsegverse/",
+    installed_version("ggsegverse"),
+    " (https://github.com/ggsegverse/ggsegverse)"
+  )
+}
 
 invert <- function(x) {
   if (length(x) == 0) {

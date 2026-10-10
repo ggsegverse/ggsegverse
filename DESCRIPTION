@@ -1,5 +1,6 @@
 Package: ggsegverse
-Title: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem
+Title: Easily Install and Load the 'ggsegverse' Brain Visualization
+    Ecosystem
 Version: 0.0.1
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel",
@@ -14,32 +15,33 @@ Description: Installs and loads the core packages of the 'ggsegverse',
     regions in 2D and 3D, together with 'ggplot2', in a single call.
     Also provides helpers to find and install atlas packages, report
     package versions, and detect namespace conflicts. Learn more about
-    the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggseg/>.
+    the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggsegverse/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
     R (>= 4.1)
 Imports:
-    ggseg.formats,
-    ggseg,
-    ggseg3d,
-    ggseg.meshes,
-    ggplot2,
-    cli,
-    dplyr,
+    cli (>= 3.4.0),
+    dplyr (>= 1.1.0),
+    ggplot2 (>= 3.5.0),
+    ggseg (>= 2.2.1.9007),
+    ggseg.formats (>= 0.0.4.9010),
+    ggseg.meshes (>= 0.0.1),
+    ggseg3d (>= 2.1.2),
     httr2 (>= 1.0.0),
-    pak,
-    rlang,
-    utils
+    rlang (>= 1.1.0),
+    utils,
+    withr (>= 2.5.0)
 URL: https://ggsegverse.github.io/ggsegverse/,
     https://github.com/ggsegverse/ggsegverse
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
 Language: en-US
 Suggests:
     knitr,
+    pak (>= 0.7.0),
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

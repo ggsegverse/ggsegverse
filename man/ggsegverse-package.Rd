@@ -4,32 +4,31 @@
 \name{ggsegverse-package}
 \alias{ggsegverse}
 \alias{ggsegverse-package}
-\title{ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem}
+\title{ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualization Ecosystem}
 \description{
-Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at \url{https://ggsegverse.github.io/ggseg/}.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at \url{https://ggsegverse.github.io/ggsegverse/}.
 }
 \details{
 \code{library(ggsegverse)} attaches the core packages:
 \itemize{
-\item \pkg{ggseg} — 2D brain atlas plots with \code{geom_brain()}.
-\item \pkg{ggseg3d} — interactive 3D brain atlas widgets.
-\item \pkg{ggseg.formats} — atlas data structures and the bundled
-\code{dk()}, \code{aseg()}, \code{tracula()}, and \code{suit()} atlases.
-\item \pkg{ggseg.meshes} — additional cortical and cerebellar
-surface meshes.
-\item \pkg{ggplot2} — the plotting grammar ggseg builds on.
+\item \code{ggseg} — 2D brain atlas plots with \code{geom_brain()}.
+\item \code{ggseg3d} — interactive 3D brain atlas widgets.
+\item \code{ggseg.formats} — atlas data structures and the bundled \code{dk()},
+\code{aseg()}, \code{tracula()}, and \code{suit()} atlases.
+\item \code{ggseg.meshes} — additional cortical and cerebellar surface meshes.
+\item \code{ggplot2} — the plotting grammar ggseg builds on.
 }
 
 More atlases are available from the ggsegverse r-universe; see
 \code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}} and \code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}}. To build your own
-atlases, install \pkg{ggseg.extra} separately.
+atlases, install \code{ggseg.extra} separately.
 }
 \section{Options}{
 
-\describe{
-\item{\code{ggsegverse.quiet}}{Set to \code{TRUE} to suppress the startup
-message when loading ggsegverse. Default is \code{FALSE}.}
-}
+\code{ggsegverse.quiet}: set to \code{TRUE} to suppress the startup message when
+loading ggsegverse. Default is \code{FALSE}.
 }
 
 \seealso{

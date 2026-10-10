@@ -8,8 +8,8 @@ ggsegverse_conflicts()
 }
 \value{
 A \code{ggsegverse_conflicts} object: a named list, one element per
-conflicting name, each holding the \code{winner} package and the \code{masked}
-packages.
+conflicting name, each holding the \code{winner} package (the one earliest
+on the search path) and the \code{masked} packages.
 }
 \description{
 Lists objects exported by a core ggsegverse package that mask, or are

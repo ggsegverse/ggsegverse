@@ -20,15 +20,57 @@ describe("ggseg_atlas_repos()", {
     expect_equal(ggseg_atlas_repos()$package, "ggsegYeo2011")
   })
 
-  it("errors with a clear message when the r-universe is unreachable", {
-    local_mocked_bindings(
-      req_perform = function(...) stop("Could not resolve host"),
+  it("rejects grep-only arguments instead of returning NA rows", {
+    local_universe(c("ggsegYeo", "ggsegDKT"))
+    expect_error(ggseg_atlas_repos("Yeo", value = TRUE), "value")
+  })
+
+  it("passes matching arguments through to grepl", {
+    local_universe(c("ggsegYeo", "ggsegDKT"))
+    expect_equal(
+      ggseg_atlas_repos("yeo", ignore.case = TRUE)$package,
+      "ggsegYeo"
+    )
+  })
+
+  it("warns and returns NULL when the body is not a package index", {
+    local_universe_body("<html>captive portal</html>")
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
+  it("warns and returns NULL when expected columns are missing", {
+    local_universe_body(data.frame(name = "ggsegYeo"))
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
+  it("warns and returns NULL when the body cannot be parsed", {
+    testthat::local_mocked_bindings(
+      req_perform = function(...) structure(list(), class = "httr2_response"),
+      resp_body_json = function(...) stop("Invalid JSON"),
       .package = "httr2"
     )
-    expect_error(
-      ggseg_atlas_repos(),
+    expect_warning(
+      result <- ggseg_atlas_repos(),
+      "Unexpected response"
+    )
+    expect_null(result)
+  })
+
+  it("warns and returns NULL when the r-universe is unreachable", {
+    local_offline_universe()
+    expect_warning(
+      result <- ggseg_atlas_repos(),
       "Could not reach the ggsegverse r-universe"
     )
+    expect_null(result)
   })
 })
 
@@ -46,6 +88,7 @@ describe("is_atlas_package()", {
 
 describe("install_ggseg_atlas()", {
   it("adds ggsegverse repo and calls pak", {
+    skip_if_not_installed("pak")
     pak_calls <- NULL
 
     local_mocked_bindings(
@@ -61,7 +104,41 @@ describe("install_ggseg_atlas()", {
     expect_equal(pak_calls$pkg, "ggsegTest")
   })
 
+  it("restores the repos option that pak::repo_add() mutates", {
+    skip_if_not_installed("pak")
+    before <- getOption("repos")
+    local_mocked_bindings(
+      repo_add = function(...) {
+        options(repos = c(mutated = "https://example.com"))
+      },
+      pak = function(pkg, ...) invisible(NULL),
+      .package = "pak"
+    )
+
+    install_ggseg_atlas("ggsegTest")
+    expect_identical(getOption("repos"), before)
+  })
+
+  it("errors without installing when pak is not available", {
+    testthat::local_mocked_bindings(
+      is_installed = function(...) FALSE,
+      .package = "rlang"
+    )
+    rlang::local_interactive(FALSE)
+    expect_error(install_ggseg_atlas("ggsegTest"))
+  })
+
+  it("rejects refs that are not atlas packages", {
+    expect_error(
+      install_ggseg_atlas("url::http://example.com/x.tar.gz"),
+      "not an atlas package"
+    )
+    expect_error(install_ggseg_atlas("ggseg.extra"), "not an atlas package")
+    expect_error(install_ggseg_atlas(character()), "character vector")
+  })
+
   it("passes additional arguments to pak", {
+    skip_if_not_installed("pak")
     pak_calls <- NULL
 
     local_mocked_bindings(
@@ -81,23 +158,86 @@ describe("install_ggseg_atlas()", {
 
 
 describe("install_ggseg_atlas_all()", {
-  it("installs every listed atlas from the r-universe", {
+  it("installs every listed atlas when confirmation is waived", {
+    skip_if_not_installed("pak")
     pak_calls <- NULL
     repo_calls <- NULL
-    local_mocked_bindings(
-      ggseg_atlas_repos = function(...) {
-        dplyr::tibble(package = c("ggsegA", "ggsegB", "ggsegC"))
-      }
-    )
+    local_atlas_listing(c("ggsegA", "ggsegB", "ggsegC"))
     local_mocked_bindings(
       repo_add = function(...) repo_calls <<- list(...),
       pak = function(pkg, ...) pak_calls <<- pkg,
       .package = "pak"
     )
 
-    install_ggseg_atlas_all()
+    install_ggseg_atlas_all(ask = FALSE)
     expect_equal(pak_calls, c("ggsegA", "ggsegB", "ggsegC"))
     expect_equal(repo_calls$ggsegverse, universe_url())
+  })
+
+  it("does not let pak ask again after its own confirmation", {
+    skip_if_not_installed("pak")
+    pak_args <- NULL
+    local_atlas_listing(c("ggsegA"))
+    rlang::local_interactive(TRUE)
+    local_mocked_bindings(confirm_install = function(packages) TRUE)
+    local_mocked_bindings(
+      repo_add = function(...) invisible(NULL),
+      pak = function(pkg, ...) pak_args <<- list(...),
+      .package = "pak"
+    )
+
+    install_ggseg_atlas_all()
+    expect_false(pak_args$ask)
+  })
+
+  it("installs after the user confirms interactively", {
+    skip_if_not_installed("pak")
+    pak_calls <- NULL
+    local_atlas_listing(c("ggsegA", "ggsegB"))
+    rlang::local_interactive(TRUE)
+    local_mocked_bindings(confirm_install = function(packages) TRUE)
+    local_mocked_bindings(
+      repo_add = function(...) invisible(NULL),
+      pak = function(pkg, ...) pak_calls <<- pkg,
+      .package = "pak"
+    )
+
+    install_ggseg_atlas_all()
+    expect_equal(pak_calls, c("ggsegA", "ggsegB"))
+  })
+
+  it("installs nothing when the user declines", {
+    skip_if_not_installed("pak")
+    pak_calls <- NULL
+    local_atlas_listing(c("ggsegA", "ggsegB"))
+    rlang::local_interactive(TRUE)
+    local_mocked_bindings(confirm_install = function(packages) FALSE)
+    local_mocked_bindings(
+      repo_add = function(...) invisible(NULL),
+      pak = function(pkg, ...) pak_calls <<- pkg,
+      .package = "pak"
+    )
+
+    expect_message(install_ggseg_atlas_all(), "Nothing installed")
+    expect_null(pak_calls)
+  })
+
+  it("refuses to install non-interactively without an explicit opt-in", {
+    local_atlas_listing(c("ggsegA", "ggsegB"))
+    rlang::local_interactive(FALSE)
+    expect_error(install_ggseg_atlas_all(), "needs confirmation")
+  })
+
+  it("warns and installs nothing when the r-universe is unreachable", {
+    local_offline_universe()
+    expect_warning(
+      expect_warning(
+        result <- install_ggseg_atlas_all(ask = FALSE),
+        "Could not reach the ggsegverse r-universe"
+      ),
+      "No atlas packages found"
+    )
+    expect_null(result)
   })
 })
 
@@ -121,6 +261,16 @@ describe("installed_ggseg_atlases()", {
     expect_equal(result$package, c("ggsegYeo2011", "ggsegHO"))
     expect_equal(result$installed, c("1.0.0", "1.5.0"))
     expect_equal(result$available, c("2.0.0", "1.5.0"))
+  })
+
+  it("returns an empty tibble when the r-universe is unreachable", {
+    local_offline_universe()
+    expect_warning(
+      result <- installed_ggseg_atlases(),
+      "Could not reach the ggsegverse r-universe"
+    )
+    expect_equal(nrow(result), 0)
+    expect_named(result, c("package", "installed", "available"))
   })
 
   it("returns empty tibble when no atlases installed", {

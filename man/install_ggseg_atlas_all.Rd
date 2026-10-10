@@ -4,14 +4,20 @@
 \alias{install_ggseg_atlas_all}
 \title{Install all available ggseg atlas packages}
 \usage{
-install_ggseg_atlas_all(...)
+install_ggseg_atlas_all(..., ask = TRUE)
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[pak:pak]{pak::pak()}}.}
+
+\item{ask}{Whether to ask for confirmation before installing anything.
+Confirmation can only be given in an interactive session, so
+non-interactive use requires passing \code{ask = FALSE} explicitly. Once
+given, the confirmation is not repeated by \code{\link[pak:pak]{pak::pak()}}.}
 }
 \value{
 Called for its side effect of installing the packages; returns
-the value of \code{\link[pak:pak]{pak::pak()}} invisibly.
+the value of \code{\link[pak:pak]{pak::pak()}} invisibly, or \code{NULL} invisibly when nothing
+was installed.
 }
 \description{
 Downloads and installs every atlas package listed by
@@ -22,10 +28,19 @@ practical.
 }
 \examples{
 \dontrun{
-# Install everything (slow, large download)
+# Install everything (slow, large download); asks before it starts
 install_ggseg_atlas_all()
+#> ! About to install 24 atlas packages from the ggsegverse r-universe.
+#> i This downloads a large amount of data and takes a long time.
+#> Continue?
 }
 }
 \seealso{
 \code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}} to install specific atlases
+
+Other atlas management:
+\code{\link[=ggseg_atlas_repos]{ggseg_atlas_repos()}},
+\code{\link[=install_ggseg_atlas]{install_ggseg_atlas()}},
+\code{\link[=installed_ggseg_atlases]{installed_ggseg_atlases()}}
 }
+\concept{atlas management}
