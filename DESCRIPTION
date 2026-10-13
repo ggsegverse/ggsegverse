@@ -1,35 +1,42 @@
 Package: ggsegverse
-Title: Easily Install and Load the 'ggseg' Ecosystem
-Version: 0.1.0
+Title: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem
+Version: 0.0.1
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel",
             email = "a.m.mowinckel@psykologi.uio.no",
             role = c("aut", "cre"),
-            comment = c(ORCID = "0000-0002-5756-0223"))
-    )
-Description: The 'ggseg' ecosystem is a set of packages for brain region
-    visualization using 'ggplot2'. This package makes it easy to install
-    and load all core packages in a single call. Learn more about the
-    'ggseg' ecosystem at <https://ggseg.github.io/ggseg/>.
+            comment = c(ORCID = "0000-0002-5756-0223")),
+    person("Center for Lifespan Changes in Brain and Cognition (LCBC), University of Oslo",
+           role = "cph")
+  )
+Description: Installs and loads the core packages of the 'ggsegverse',
+    an ecosystem for plotting brain atlases and mapping data onto brain
+    regions in 2D and 3D, together with 'ggplot2', in a single call.
+    Also provides helpers to find and install atlas packages, report
+    package versions, and detect namespace conflicts. Learn more about
+    the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggseg/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 Depends:
     R (>= 4.1)
 Imports:
     ggseg.formats,
     ggseg,
     ggseg3d,
+    ggseg.meshes,
+    ggplot2,
     cli,
+    dplyr,
+    httr2 (>= 1.0.0),
+    pak,
     rlang,
-    purrr,
-    lifecycle,
     utils
-URL: https://ggseg.github.io/ggsegverse/,
+URL: https://ggsegverse.github.io/ggsegverse/,
     https://github.com/ggsegverse/ggsegverse
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
 Language: en-US
-Suggests: 
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0

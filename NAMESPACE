@@ -2,8 +2,13 @@
 
 S3method(format,ggsegverse_conflicts)
 S3method(print,ggsegverse_conflicts)
+export(ggseg_atlas_repos)
 export(ggsegverse_conflicts)
 export(ggsegverse_deps)
 export(ggsegverse_packages)
 export(ggsegverse_sitrep)
 export(ggsegverse_update)
+export(install_ggseg_atlas)
+export(install_ggseg_atlas_all)
+export(installed_ggseg_atlases)
+importFrom(dplyr,as_tibble)

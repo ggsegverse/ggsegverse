@@ -6,6 +6,19 @@
 \usage{
 ggsegverse_sitrep()
 }
+\value{
+The data frame from \code{\link[=ggsegverse_deps]{ggsegverse_deps()}}, invisibly.
+}
 \description{
-Prints diagnostic information about installed ggsegverse packages.
+Prints the installed version of each core package, flags packages that
+are missing or out of date, and reports the running R version. Useful
+to include when reporting a bug.
+}
+\examples{
+\dontrun{
+ggsegverse_sitrep()
+}
+}
+\seealso{
+\code{\link[=ggsegverse_update]{ggsegverse_update()}} to get the update command.
 }
