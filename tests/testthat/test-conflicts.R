@@ -28,7 +28,7 @@ describe("confirm_conflict()", {
   it("reports a ggseg package masked by an external package", {
     local_mocked_bindings(pkg_object = function(pkg, name) pkg)
     pkgs <- c("package:someother", "package:ggseg")
-    expect_equal(
+    expect_identical(
       confirm_conflict(pkgs, "some_fun", ggseg_pkgs),
       list(winner = "package:someother", masked = "package:ggseg")
     )
@@ -37,7 +37,7 @@ describe("confirm_conflict()", {
   it("reports a ggseg package masking an external package", {
     local_mocked_bindings(pkg_object = function(pkg, name) pkg)
     pkgs <- c("package:ggseg", "package:someother")
-    expect_equal(
+    expect_identical(
       confirm_conflict(pkgs, "some_fun", ggseg_pkgs),
       list(winner = "package:ggseg", masked = "package:someother")
     )
@@ -50,7 +50,7 @@ describe("confirm_conflict()", {
       }
     )
     pkgs <- c("package:ggseg", "package:ggseg.formats", "package:someother")
-    expect_equal(
+    expect_identical(
       confirm_conflict(pkgs, "dk", ggseg_pkgs)$masked,
       "package:someother"
     )
@@ -71,19 +71,19 @@ describe("ls_env()", {
   it("returns exports for a valid package", {
     exports <- ls_env("package:stats")
     expect_type(exports, "character")
-    expect_true(length(exports) > 0)
+    expect_gt(length(exports), 0)
   })
 
   it("returns empty character for invalid package", {
     result <- ls_env("package:zzz_nonexistent_pkg_999")
-    expect_equal(result, character())
+    expect_identical(result, character())
   })
 })
 
 describe("format.ggsegverse_conflicts()", {
   it("returns empty string when no conflicts", {
     conflicts <- structure(list(), class = "ggsegverse_conflicts")
-    expect_equal(format(conflicts), "")
+    expect_identical(format(conflicts), "")
   })
 
   it("names the masking and masked packages", {

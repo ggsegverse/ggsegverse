@@ -7,17 +7,20 @@ describe("ggseg_atlas_repos()", {
       result,
       c("package", "version", "title", "description", "license", "url")
     )
-    expect_equal(result$package, c("ggsegYeo", "ggsegDKT"))
+    expect_identical(result$package, c("ggsegYeo", "ggsegDKT"))
   })
 
   it("filters by pattern", {
     local_universe(c("ggsegYeo", "ggsegDKT", "ggsegYeo7"))
-    expect_equal(ggseg_atlas_repos("Yeo")$package, c("ggsegYeo", "ggsegYeo7"))
+    expect_identical(
+      ggseg_atlas_repos("Yeo")$package,
+      c("ggsegYeo", "ggsegYeo7")
+    )
   })
 
   it("excludes core packages and tools hosted on the r-universe", {
     local_universe(c("ggseg", "ggseg.extra", "neuromapr", "ggsegYeo2011"))
-    expect_equal(ggseg_atlas_repos()$package, "ggsegYeo2011")
+    expect_identical(ggseg_atlas_repos()$package, "ggsegYeo2011")
   })
 
   it("errors with a clear message when the r-universe is unreachable", {
@@ -46,28 +49,29 @@ describe("is_atlas_package()", {
 
 describe("install_ggseg_atlas()", {
   it("adds ggsegverse repo and calls pak", {
-    pak_calls <- NULL
+    pak_calls <- new.env(parent = emptyenv())
 
     local_mocked_bindings(
       repo_add = function(...) invisible(NULL),
       pak = function(pkg, ...) {
-        pak_calls <<- list(pkg = pkg)
+        pak_calls$pkg <- pkg
         invisible(NULL)
       },
       .package = "pak"
     )
 
     install_ggseg_atlas("ggsegTest")
-    expect_equal(pak_calls$pkg, "ggsegTest")
+    expect_identical(pak_calls$pkg, "ggsegTest")
   })
 
   it("passes additional arguments to pak", {
-    pak_calls <- NULL
+    pak_calls <- new.env(parent = emptyenv())
 
     local_mocked_bindings(
       repo_add = function(...) invisible(NULL),
       pak = function(pkg, ...) {
-        pak_calls <<- list(pkg = pkg, args = list(...))
+        pak_calls$pkg <- pkg
+        pak_calls$args <- list(...)
         invisible(NULL)
       },
       .package = "pak"
@@ -82,22 +86,21 @@ describe("install_ggseg_atlas()", {
 
 describe("install_ggseg_atlas_all()", {
   it("installs every listed atlas from the r-universe", {
-    pak_calls <- NULL
-    repo_calls <- NULL
+    calls <- new.env(parent = emptyenv())
     local_mocked_bindings(
       ggseg_atlas_repos = function(...) {
         dplyr::tibble(package = c("ggsegA", "ggsegB", "ggsegC"))
       }
     )
     local_mocked_bindings(
-      repo_add = function(...) repo_calls <<- list(...),
-      pak = function(pkg, ...) pak_calls <<- pkg,
+      repo_add = function(...) calls$repo <- list(...),
+      pak = function(pkg, ...) calls$pak <- pkg,
       .package = "pak"
     )
 
     install_ggseg_atlas_all()
-    expect_equal(pak_calls, c("ggsegA", "ggsegB", "ggsegC"))
-    expect_equal(repo_calls$ggsegverse, universe_url())
+    expect_identical(calls$pak, c("ggsegA", "ggsegB", "ggsegC"))
+    expect_identical(calls$repo$ggsegverse, universe_url())
   })
 })
 
@@ -118,9 +121,9 @@ describe("installed_ggseg_atlases()", {
     result <- installed_ggseg_atlases()
     expect_s3_class(result, "tbl_df")
     expect_named(result, c("package", "installed", "available"))
-    expect_equal(result$package, c("ggsegYeo2011", "ggsegHO"))
-    expect_equal(result$installed, c("1.0.0", "1.5.0"))
-    expect_equal(result$available, c("2.0.0", "1.5.0"))
+    expect_identical(result$package, c("ggsegYeo2011", "ggsegHO"))
+    expect_identical(result$installed, c("1.0.0", "1.5.0"))
+    expect_identical(result$available, c("2.0.0", "1.5.0"))
   })
 
   it("returns empty tibble when no atlases installed", {
@@ -135,7 +138,7 @@ describe("installed_ggseg_atlases()", {
     )
 
     result <- installed_ggseg_atlases()
-    expect_equal(nrow(result), 0)
+    expect_identical(nrow(result), 0L)
     expect_named(result, c("package", "installed", "available"))
   })
 })

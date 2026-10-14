@@ -7,7 +7,7 @@ describe("package_version_string()", {
 
   it("returns not installed for missing package", {
     v <- package_version_string("notarealpackage999")
-    expect_equal(v, "[not installed]")
+    expect_identical(v, "[not installed]")
   })
 })
 

@@ -26,7 +26,7 @@
 #' ggseg_atlas_repos("yeo")
 #' }
 ggseg_atlas_repos <- function(pattern = NULL, ...) {
-  api_url <- paste0(universe_url(), "/api/packages")
+  api_url <- file.path(universe_url(), "api", "packages")
   resp <- tryCatch(
     httr2::request(api_url) |>
       httr2::req_timeout(30) |>
@@ -58,15 +58,6 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
   names(repos) <- tolower(names(repos))
   repos
 }
-
-universe_url <- function() {
-  "https://ggsegverse.r-universe.dev"
-}
-
-is_atlas_package <- function(pkg) {
-  grepl("^ggseg[A-Z]", pkg)
-}
-
 
 #' Install a ggseg atlas package
 #'
@@ -151,4 +142,13 @@ installed_ggseg_atlases <- function() {
     installed = installed[found],
     available = available$version[found]
   )
+}
+
+
+universe_url <- function() {
+  "https://ggsegverse.r-universe.dev"
+}
+
+is_atlas_package <- function(pkg) {
+  grepl("^ggseg[A-Z]", pkg)
 }

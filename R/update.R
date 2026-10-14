@@ -113,7 +113,7 @@ ggsegverse_sitrep <- function() {
   )
 
   cli::cli_h2("R version")
-  cli::cli_text("{r_version_string()}")
+  cli::cli_verbatim(r_version_string())
 
   invisible(deps)
 }
@@ -144,7 +144,7 @@ parse_remote_version <- function(resp) {
     return(NA_character_)
   }
   con <- textConnection(httr2::resp_body_string(resp))
-  on.exit(close(con))
+  on.exit(close(con), add = TRUE)
   tryCatch(
     read.dcf(con, fields = "Version")[[1, "Version"]],
     error = function(e) NA_character_
@@ -157,7 +157,7 @@ r_version_string <- function() {
 
 pak_ref <- function(pkg) {
   from_cran <- core_package_sources()[pkg] == "cran"
-  unname(ifelse(from_cran, pkg, paste0("ggsegverse/", pkg)))
+  unname(ifelse(from_cran, pkg, file.path("ggsegverse", pkg)))
 }
 
 description_url <- function(pkg) {

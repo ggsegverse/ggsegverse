@@ -37,38 +37,6 @@ ggsegverse_conflicts <- function() {
   structure(conflicts, class = "ggsegverse_conflicts")
 }
 
-confirm_conflict <- function(pkgs, name, ggseg_pkgs) {
-  winner <- pkgs[[1]]
-  winner_obj <- pkg_object(winner, name)
-  masked <- Filter(
-    function(pkg) !identical(pkg_object(pkg, name), winner_obj),
-    pkgs[-1]
-  )
-  if (length(masked) == 0) {
-    return(NULL)
-  }
-
-  if (!any(c(winner, masked) %in% ggseg_pkgs)) {
-    return(NULL)
-  }
-
-  list(winner = winner, masked = masked)
-}
-
-pkg_object <- function(pkg, name) {
-  get0(name, envir = as.environment(pkg), inherits = FALSE)
-}
-
-ls_env <- function(env) {
-  tryCatch(
-    {
-      x <- .getNamespaceInfo(asNamespace(gsub("package:", "", env)), "exports")
-      if (inherits(x, "environment")) ls(x) else character()
-    },
-    error = function(e) character()
-  )
-}
-
 #' @export
 print.ggsegverse_conflicts <- function(x, ...) {
   if (length(x) == 0) {
@@ -97,6 +65,39 @@ format.ggsegverse_conflicts <- function(x, ...) {
   paste(c(header, bullets, hint), collapse = "\n")
 }
 
+confirm_conflict <- function(pkgs, name, ggseg_pkgs) {
+  winner <- pkgs[[1]]
+  winner_obj <- pkg_object(winner, name)
+  masked <- Filter(
+    function(pkg) !identical(pkg_object(pkg, name), winner_obj),
+    pkgs[-1]
+  )
+  if (length(masked) == 0) {
+    return(NULL)
+  }
+
+  if (!any(c(winner, masked) %in% ggseg_pkgs)) {
+    return(NULL)
+  }
+
+  list(winner = winner, masked = masked)
+}
+
+pkg_object <- function(pkg, name) {
+  get0(name, envir = as.environment(pkg), inherits = FALSE)
+}
+
+ls_env <- function(env) {
+  tryCatch(
+    {
+      ns <- asNamespace(gsub("package:", "", env, fixed = TRUE))
+      x <- .getNamespaceInfo(ns, "exports")
+      if (inherits(x, "environment")) ls(x) else character()
+    },
+    error = function(e) character()
+  )
+}
+
 format_conflict <- function(conflict, name) {
   qualify <- function(pkg) {
     paste0(cli::col_blue(sub("^package:", "", pkg)), "::", name)
@@ -106,6 +107,6 @@ format_conflict <- function(conflict, name) {
     " ",
     qualify(conflict$winner),
     " masks ",
-    paste(vapply(conflict$masked, qualify, character(1)), collapse = ", ")
+    toString(vapply(conflict$masked, qualify, character(1)))
   )
 }
