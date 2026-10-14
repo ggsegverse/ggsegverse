@@ -1,6 +1,6 @@
 Package: ggsegverse
 Title: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel",
             email = "a.m.mowinckel@psykologi.uio.no",
