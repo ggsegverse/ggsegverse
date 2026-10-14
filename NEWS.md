@@ -1,4 +1,4 @@
-# ggsegverse 0.0.1
+# ggsegverse (development version)
 
 * Initial release.
 
