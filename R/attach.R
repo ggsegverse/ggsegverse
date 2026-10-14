@@ -8,7 +8,8 @@ same_library <- function(pkg) {
   # Attaching the core packages is what this meta-package is for, so the
   # linter's advice does not apply: loadNamespace()/requireNamespace() load
   # without attaching, and attachNamespace() takes no lib.loc.
-  library( # nolint: library_require_linter.
+  # nolint next: library_require_linter.
+  library(
     pkg,
     lib.loc = loc,
     character.only = TRUE,
