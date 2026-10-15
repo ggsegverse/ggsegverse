@@ -7,6 +7,8 @@
 # placed where they have clear background around them, so they never touch the
 # brain, the wordmark or the hex rim.
 
+library(magick) # nolint: object_usage_linter.
+
 set.seed(2026)
 
 background <- "#13293a"
@@ -20,8 +22,8 @@ star_colours <- c(
   "#b7a8cb"
 )
 
-hex <- magick::image_read("data-raw/ggsegverse-hex.png")
-pixels <- magick::image_data(hex, "rgba")
+hex <- image_read("data-raw/ggsegverse-hex.png")
+pixels <- image_data(hex, "rgba")
 width <- dim(pixels)[2]
 height <- dim(pixels)[3]
 
@@ -86,7 +88,7 @@ sparkle_outline <- function(x, y, radius) {
   list(x = x + reach * sin(angles), y = y + reach * cos(angles))
 }
 
-canvas <- magick::image_draw(hex)
+canvas <- image_draw(hex)
 symbols(
   dots$x,
   dots$y,
@@ -106,14 +108,15 @@ for (i in seq_len(nrow(sparkles))) {
 dev.off()
 
 dir.create("man/figures", recursive = TRUE, showWarnings = FALSE)
-logo <- magick::image_resize(canvas, "x600")
-magick::image_write(logo, "man/figures/logo.png", format = "png")
+logo <- image_resize(canvas, "x600")
+image_write(logo, "man/figures/logo.png", format = "png")
 
 # Favicons: realfavicongenerator.net (used by pkgdown::build_favicons) is
 # unreliable, so render the standard set locally from the logo with magick.
 square <- function(px) {
   geom <- sprintf("%dx%d", px, px)
-  magick::image_extent(magick::image_resize(logo, geom), geom, color = "none")
+  # nolint next: object_usage_linter.
+  image_extent(image_resize(logo, geom), geom, color = "none")
 }
 favicons <- list(
   "favicon-16x16.png" = 16,
@@ -127,14 +130,14 @@ favicons <- list(
 )
 dir.create("pkgdown/favicon", recursive = TRUE, showWarnings = FALSE)
 for (nm in names(favicons)) {
-  magick::image_write(
+  image_write(
     square(favicons[[nm]]),
     file.path("pkgdown/favicon", nm),
     format = "png"
   )
 }
-magick::image_write(
-  magick::image_join(square(16), square(32)),
+image_write(
+  image_join(square(16), square(32)),
   "pkgdown/favicon/favicon.ico",
   format = "ico"
 )
