@@ -2,13 +2,13 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "ggsegverse",
-  "description": "Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggseg/>.",
+  "description": "Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggsegverse/>.",
   "name": "ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem",
   "relatedLink": "https://ggsegverse.github.io/ggsegverse/",
   "codeRepository": "https://github.com/ggsegverse/ggsegverse",
   "issueTracker": "https://github.com/ggsegverse/ggsegverse/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1",
+  "version": "0.0.1.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -40,6 +40,30 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
@@ -189,5 +213,9 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "52.761KB"
+  "fileSize": "66.921KB",
+  "releaseNotes": "https://github.com/ggsegverse/ggsegverse/blob/main/NEWS.md",
+  "readme": "https://github.com/ggsegverse/ggsegverse/blob/main/README.md",
+  "contIntegration": ["https://github.com/ggsegverse/ggsegverse/actions/workflows/R-CMD-check.yaml", "https://github.com/ggsegverse/ggsegverse/actions/workflows/code-quality.yaml", "https://github.com/ggsegverse/ggsegverse/actions/workflows/test-coverage.yaml"],
+  "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental"
 }
