@@ -7,9 +7,21 @@
 ggsegverse_conflicts()
 }
 \value{
-A \code{ggsegverse_conflicts} object (invisibly).
+A \code{ggsegverse_conflicts} object: a named list, one element per
+conflicting name, each holding the \code{winner} package and the \code{masked}
+packages.
 }
 \description{
-Lists all function name conflicts between ggsegverse packages and
-other loaded packages.
+Lists objects exported by a core ggsegverse package that mask, or are
+masked by, an object of the same name in another attached package.
+Re-exports of the identical object (for example \code{ggseg::dk()}
+re-exporting \code{ggseg.formats::dk()}) are not conflicts and are not
+reported.
+}
+\details{
+Conflicts are shown when ggsegverse is attached. To make every
+ambiguous call an error instead, use the conflicted package.
+}
+\examples{
+ggsegverse_conflicts()
 }

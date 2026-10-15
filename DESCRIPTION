@@ -1,6 +1,6 @@
 Package: ggsegverse
 Title: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel",
             email = "a.m.mowinckel@psykologi.uio.no",
@@ -14,7 +14,7 @@ Description: Installs and loads the core packages of the 'ggsegverse',
     regions in 2D and 3D, together with 'ggplot2', in a single call.
     Also provides helpers to find and install atlas packages, report
     package versions, and detect namespace conflicts. Learn more about
-    the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggseg/>.
+    the 'ggsegverse' ecosystem at <https://ggsegverse.github.io/ggsegverse/>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
@@ -36,7 +36,10 @@ URL: https://ggsegverse.github.io/ggsegverse/,
 BugReports: https://github.com/ggsegverse/ggsegverse/issues
 Language: en-US
 Suggests:
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.1.0

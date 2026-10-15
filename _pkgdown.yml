@@ -1,4 +1,21 @@
-url: https://ggseg.github.io/ggsegverse/
+url: https://ggsegverse.github.io/ggsegverse/
 template:
   bootstrap: 5
 
+reference:
+  - title: Core packages
+    contents:
+      - ggsegverse_packages
+      - ggsegverse_conflicts
+  - title: Atlases
+    desc: Find and install atlas packages from the ggsegverse r-universe.
+    contents:
+      - ggseg_atlas_repos
+      - install_ggseg_atlas
+      - install_ggseg_atlas_all
+      - installed_ggseg_atlases
+  - title: Versions and updates
+    contents:
+      - ggsegverse_sitrep
+      - ggsegverse_deps
+      - ggsegverse_update
