@@ -5,7 +5,7 @@ for plotting brain atlases and mapping data onto brain regions in 2D and
 3D, together with 'ggplot2', in a single call. Also provides helpers to
 find and install atlas packages, report package versions, and detect
 namespace conflicts. Learn more about the 'ggsegverse' ecosystem at
-<https://ggsegverse.github.io/ggseg/>.
+<https://ggsegverse.github.io/ggsegverse/>.
 
 ## Details
 
@@ -24,9 +24,9 @@ attaches the core packages:
 - ggplot2 — the plotting grammar ggseg builds on.
 
 More atlases are available from the ggsegverse r-universe; see
-[`ggseg_atlas_repos()`](https://ggseg.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
+[`ggseg_atlas_repos()`](https://ggsegverse.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
 and
-[`install_ggseg_atlas()`](https://ggseg.github.io/ggsegverse/reference/install_ggseg_atlas.md).
+[`install_ggseg_atlas()`](https://ggsegverse.github.io/ggsegverse/reference/install_ggseg_atlas.md).
 To build your own atlases, install ggseg.extra separately.
 
 ## Options

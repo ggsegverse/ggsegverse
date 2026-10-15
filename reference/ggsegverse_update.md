@@ -13,13 +13,13 @@ ggsegverse_update()
 ## Value
 
 The rows of
-[`ggsegverse_deps()`](https://ggseg.github.io/ggsegverse/reference/ggsegverse_deps.md)
+[`ggsegverse_deps()`](https://ggsegverse.github.io/ggsegverse/reference/ggsegverse_deps.md)
 that are out of date (invisibly), or `NULL` invisibly when everything is
 current.
 
 ## See also
 
-[`ggsegverse_sitrep()`](https://ggseg.github.io/ggsegverse/reference/ggsegverse_sitrep.md)
+[`ggsegverse_sitrep()`](https://ggsegverse.github.io/ggsegverse/reference/ggsegverse_sitrep.md)
 for a full overview.
 
 ## Examples

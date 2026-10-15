@@ -4,7 +4,7 @@ The packages attached by
 [`library(ggsegverse)`](https://ggsegverse.github.io/ggsegverse/):
 ggseg.formats, ggseg, ggseg3d, ggseg.meshes, and ggplot2. Atlas packages
 and the atlas-building toolkit ggseg.extra are not core packages; see
-[`ggseg_atlas_repos()`](https://ggseg.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
+[`ggseg_atlas_repos()`](https://ggsegverse.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
 for atlases.
 
 ## Usage

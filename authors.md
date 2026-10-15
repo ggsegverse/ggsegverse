@@ -14,13 +14,13 @@ Source:
 [`DESCRIPTION`](https://github.com/ggsegverse/ggsegverse/blob/main/DESCRIPTION)
 
 Mowinckel A (2026). *ggsegverse: Easily Install and Load the
-'ggsegverse' Brain Visualisation Ecosystem*. R package version 0.0.1,
-<https://ggsegverse.github.io/ggsegverse/>.
+'ggsegverse' Brain Visualisation Ecosystem*. R package version
+0.0.1.9000, <https://ggsegverse.github.io/ggsegverse/>.
 
     @Manual{,
       title = {ggsegverse: Easily Install and Load the 'ggsegverse' Brain Visualisation Ecosystem},
       author = {Athanasia Mo Mowinckel},
       year = {2026},
-      note = {R package version 0.0.1},
+      note = {R package version 0.0.1.9000},
       url = {https://ggsegverse.github.io/ggsegverse/},
     }

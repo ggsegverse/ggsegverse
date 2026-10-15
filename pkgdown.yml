@@ -1,8 +1,9 @@
 pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-10-13T10:28Z
+articles:
+  ggsegverse: ggsegverse.html
+last_built: 2026-10-15T10:00Z
 urls:
-  reference: https://ggseg.github.io/ggsegverse/reference
-  article: https://ggseg.github.io/ggsegverse/articles
+  reference: https://ggsegverse.github.io/ggsegverse/reference
+  article: https://ggsegverse.github.io/ggsegverse/articles

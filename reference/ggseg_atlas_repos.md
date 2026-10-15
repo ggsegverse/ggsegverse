@@ -35,7 +35,7 @@ the atlas-building toolkit `ggseg.extra`, are excluded.
 
 ## See also
 
-[`install_ggseg_atlas()`](https://ggseg.github.io/ggsegverse/reference/install_ggseg_atlas.md)
+[`install_ggseg_atlas()`](https://ggsegverse.github.io/ggsegverse/reference/install_ggseg_atlas.md)
 to install a specific atlas
 
 ## Examples

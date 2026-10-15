@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Easily Install and Load the ggsegverse Brain Visualisation Ecosystem">
-<meta name="description" content="Installs and loads the core packages of the ggsegverse, an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with ggplot2, in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the ggsegverse ecosystem at &lt;https://ggsegverse.github.io/ggseg/&gt;.">
-<meta property="og:description" content="Installs and loads the core packages of the ggsegverse, an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with ggplot2, in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the ggsegverse ecosystem at &lt;https://ggsegverse.github.io/ggseg/&gt;.">
+<meta name="description" content="Installs and loads the core packages of the ggsegverse, an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with ggplot2, in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the ggsegverse ecosystem at &lt;https://ggsegverse.github.io/ggsegverse/&gt;.">
+<meta property="og:description" content="Installs and loads the core packages of the ggsegverse, an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with ggplot2, in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the ggsegverse ecosystem at &lt;https://ggsegverse.github.io/ggsegverse/&gt;.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggsegverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,9 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/ggsegverse.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -45,8 +47,117 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Installs and loads the core packages of the 'ggsegverse', an ecosystem for plotting brain atlases and mapping data onto brain regions in 2D and 3D, together with 'ggplot2', in a single call. Also provides helpers to find and install atlas packages, report package versions, and detect namespace conflicts. Learn more about the 'ggsegverse' ecosystem at &lt;<a href="https://ggsegverse.github.io/ggseg/" class="external-link">https://ggsegverse.github.io/ggseg/</a>&gt;.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="ggsegverse">ggsegverse<a class="anchor" aria-label="anchor" href="#ggsegverse"></a>
+</h1></div>
+<!-- badges: start -->
+
+<p>The ggsegverse is a set of R packages for brain region visualization built on ggplot2. The <strong>ggsegverse</strong> package makes it easy to install and load the core packages in a single step.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggsegverse.github.io/ggsegverse/">ggsegverse</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="core-packages">Core packages<a class="anchor" aria-label="anchor" href="#core-packages"></a>
+</h2>
+<p>Loading ggsegverse attaches the following packages:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Package</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/ggsegverse/ggseg.formats" class="external-link">ggseg.formats</a></td>
+<td>Atlas data structures and S3 classes</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ggsegverse/ggseg" class="external-link">ggseg</a></td>
+<td>2D brain region plotting with <code>geom_brain()</code>
+</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ggsegverse/ggseg3d" class="external-link">ggseg3d</a></td>
+<td>Interactive 3D brain visualization</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ggsegverse/ggseg.meshes" class="external-link">ggseg.meshes</a></td>
+<td>Additional cortical and cerebellar surface meshes for 3D rendering</td>
+</tr>
+<tr>
+<td><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></td>
+<td>The grammar of graphics that ggseg builds on</td>
+</tr>
+</tbody>
+</table>
+<p>ggsegverse is for plotting. To build your own atlases, install <a href="https://ggsegverse.github.io/ggseg.extra/" class="external-link">ggseg.extra</a> separately.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install ggsegverse from <a href="https://github.com/ggsegverse/ggsegverse" class="external-link">GitHub</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"ggsegverse/ggsegverse"</span><span class="op">)</span></span></code></pre></div>
+<p>This will also install all core packages that are not already on your system.</p>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p><code><a href="https://ggsegverse.github.io/ggsegverse/">library(ggsegverse)</a></code> loads and attaches all core packages. On attach, it displays the loaded packages with their versions and any namespace conflicts:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggsegverse.github.io/ggsegverse/">ggsegverse</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── ggsegverse ───────────────────────────────────────────────────────── 0.0.1 ──</span></span>
+<span><span class="co">#&gt; ✔ ggseg.formats 0.0.4.9006 ✔ ggseg.meshes 0.0.1.9000</span></span>
+<span><span class="co">#&gt; ✔ ggseg 2.2.1.9007 ✔ ggplot2 4.0.3</span></span>
+<span><span class="co">#&gt; ✔ ggseg3d 2.1.2.9003</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="find-and-install-atlases">Find and install atlases<a class="anchor" aria-label="anchor" href="#find-and-install-atlases"></a>
+</h3>
+<p>More atlases live on the <a href="https://ggsegverse.r-universe.dev" class="external-link">ggsegverse r-universe</a>:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggseg_atlas_repos.html">ggseg_atlas_repos</a></span><span class="op">(</span><span class="st">"yeo"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/install_ggseg_atlas.html">install_ggseg_atlas</a></span><span class="op">(</span><span class="st">"ggsegYeo2011"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/installed_ggseg_atlases.html">installed_ggseg_atlases</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="check-for-outdated-packages">Check for outdated packages<a class="anchor" aria-label="anchor" href="#check-for-outdated-packages"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggsegverse_sitrep.html">ggsegverse_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── ggsegverse situation report ─────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Installed packages ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ✔ ggseg.formats: 0.0.4.9006</span></span>
+<span><span class="co">#&gt; ✔ ggseg: 2.2.1.9007</span></span>
+<span><span class="co">#&gt; ✔ ggseg3d: 2.1.2.9003</span></span>
+<span><span class="co">#&gt; ✔ ggseg.meshes: 0.0.1.9000</span></span>
+<span><span class="co">#&gt; ✔ ggplot2: 4.0.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── R version ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; R version 4.6.1 (2026-06-24)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="list-namespace-conflicts">List namespace conflicts<a class="anchor" aria-label="anchor" href="#list-namespace-conflicts"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ggsegverse_conflicts.html">ggsegverse_conflicts</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; No conflicts detected.</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="suppress-startup-message">Suppress startup message<a class="anchor" aria-label="anchor" href="#suppress-startup-message"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ggsegverse.quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggsegverse.github.io/ggsegverse/">ggsegverse</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
@@ -79,7 +190,15 @@ Installs and loads the core packages of the 'ggsegverse', an ecosystem for plott
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/ggsegverse/ggsegverse/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/ggsegverse/ggsegverse/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/ggsegverse/ggsegverse/actions/workflows/code-quality.yaml" class="external-link"><img src="https://github.com/ggsegverse/ggsegverse/actions/workflows/code-quality.yaml/badge.svg" alt="code-quality"></a></li>
+<li><a href="https://github.com/ggsegverse/ggsegverse/actions/workflows/test-coverage.yaml" class="external-link"><img src="https://github.com/ggsegverse/ggsegverse/actions/workflows/test-coverage.yaml/badge.svg" alt="test-coverage"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

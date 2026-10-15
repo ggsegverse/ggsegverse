@@ -13,12 +13,12 @@ ggsegverse_sitrep()
 ## Value
 
 The data frame from
-[`ggsegverse_deps()`](https://ggseg.github.io/ggsegverse/reference/ggsegverse_deps.md),
+[`ggsegverse_deps()`](https://ggsegverse.github.io/ggsegverse/reference/ggsegverse_deps.md),
 invisibly.
 
 ## See also
 
-[`ggsegverse_update()`](https://ggseg.github.io/ggsegverse/reference/ggsegverse_update.md)
+[`ggsegverse_update()`](https://ggsegverse.github.io/ggsegverse/reference/ggsegverse_update.md)
 to get the update command.
 
 ## Examples

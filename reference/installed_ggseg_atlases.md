@@ -18,9 +18,9 @@ r-universe).
 
 ## See also
 
-[`ggseg_atlas_repos()`](https://ggseg.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
+[`ggseg_atlas_repos()`](https://ggsegverse.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
 to list all available atlases,
-[`install_ggseg_atlas()`](https://ggseg.github.io/ggsegverse/reference/install_ggseg_atlas.md)
+[`install_ggseg_atlas()`](https://ggsegverse.github.io/ggsegverse/reference/install_ggseg_atlas.md)
 to install one
 
 ## Examples

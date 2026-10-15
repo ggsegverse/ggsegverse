@@ -16,7 +16,7 @@ install_ggseg_atlas(package, ...)
 - package:
 
   Package name (e.g., `"ggsegYeo2011"`, `"ggsegSchaefer"`). Use
-  [`ggseg_atlas_repos()`](https://ggseg.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
+  [`ggseg_atlas_repos()`](https://ggsegverse.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
   to see available packages.
 
 - ...:
@@ -31,7 +31,7 @@ of [`pak::pak()`](https://pak.r-lib.org/reference/pak.html) invisibly.
 
 ## See also
 
-[`ggseg_atlas_repos()`](https://ggseg.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
+[`ggseg_atlas_repos()`](https://ggsegverse.github.io/ggsegverse/reference/ggseg_atlas_repos.md)
 to list available atlases
 
 ## Examples
