@@ -6,7 +6,7 @@ describe("ggsegverse_deps()", {
     deps <- ggsegverse_deps()
     expect_s3_class(deps, "data.frame")
     expect_named(deps, c("package", "local", "available", "behind"))
-    expect_equal(deps$package, core_packages())
+    expect_identical(deps$package, core_packages())
     expect_type(deps$behind, "logical")
   })
 
@@ -26,14 +26,14 @@ describe("is_behind()", {
   })
 
   it("does not flag equal or newer local versions", {
-    expect_equal(
+    expect_identical(
       is_behind(c("1.0.0", "2.0.0"), c("1.0.0", "1.5.0")),
       c(FALSE, FALSE)
     )
   })
 
   it("is FALSE when either version is unknown", {
-    expect_equal(
+    expect_identical(
       is_behind(c(NA, "1.0.0", NA), c("1.0.0", NA, NA)),
       c(FALSE, FALSE, FALSE)
     )
@@ -42,10 +42,10 @@ describe("is_behind()", {
 
 describe("remote_versions()", {
   it("requests every package in parallel with a timeout", {
-    seen <- NULL
+    seen <- new.env(parent = emptyenv())
     local_mocked_bindings(
       req_perform_parallel = function(reqs, ...) {
-        seen <<- reqs
+        seen$reqs <- reqs
         list(
           fake_response("Version: 1.0.0\n"),
           structure(class = c("error", "condition"), list(message = "404"))
@@ -55,12 +55,12 @@ describe("remote_versions()", {
       .package = "httr2"
     )
     result <- remote_versions(c("ggseg", "ggplot2"))
-    expect_equal(result, c("1.0.0", NA_character_))
-    expect_equal(
-      vapply(seen, function(req) req$url, character(1)),
+    expect_identical(result, c("1.0.0", NA_character_))
+    expect_identical(
+      vapply(seen$reqs, function(req) req$url, character(1)),
       c(description_url("ggseg"), description_url("ggplot2"))
     )
-    expect_false(is.null(seen[[1]]$options$timeout_ms))
+    expect_false(is.null(seen$reqs[[1]]$options$timeout_ms))
   })
 })
 
@@ -71,7 +71,7 @@ describe("parse_remote_version()", {
       .package = "httr2"
     )
     resp <- fake_response("Package: ggseg\nTitle: Plotting\nVersion: 2.3.0\n")
-    expect_equal(parse_remote_version(resp), "2.3.0")
+    expect_identical(parse_remote_version(resp), "2.3.0")
   })
 
   it("returns NA for a failed request", {
@@ -144,7 +144,7 @@ describe("ggsegverse_update()", {
       message = function(m) invokeRestart("muffleMessage")
     )
     expect_s3_class(result, "data.frame")
-    expect_equal(result$package, "ggseg")
+    expect_identical(result$package, "ggseg")
   })
 
   it("suggests a pak call for several packages at once", {
@@ -160,7 +160,7 @@ describe("ggsegverse_update()", {
 
 describe("core_package_sources()", {
   it("classifies every released core package as CRAN", {
-    expect_equal(
+    expect_identical(
       unname(core_package_sources()[c("ggseg", "ggseg.formats", "ggseg3d")]),
       c("cran", "cran", "cran")
     )
@@ -169,12 +169,12 @@ describe("core_package_sources()", {
 
 describe("pak_ref()", {
   it("leaves CRAN packages unprefixed", {
-    expect_equal(pak_ref(c("ggseg", "ggplot2")), c("ggseg", "ggplot2"))
+    expect_identical(pak_ref(c("ggseg", "ggplot2")), c("ggseg", "ggplot2"))
   })
 
   it("prefixes packages that are not on CRAN with the GitHub org", {
     local_sources(c(ggsegFuture = "ggsegverse", ggplot2 = "cran"))
-    expect_equal(
+    expect_identical(
       pak_ref(c("ggsegFuture", "ggplot2")),
       c("ggsegverse/ggsegFuture", "ggplot2")
     )
@@ -183,11 +183,11 @@ describe("pak_ref()", {
 
 describe("description_url()", {
   it("points released core packages at CRAN", {
-    expect_equal(
+    expect_identical(
       description_url("ggseg"),
       "https://cran.r-project.org/web/packages/ggseg/DESCRIPTION"
     )
-    expect_equal(
+    expect_identical(
       description_url("ggplot2"),
       "https://cran.r-project.org/web/packages/ggplot2/DESCRIPTION"
     )
@@ -195,7 +195,7 @@ describe("description_url()", {
 
   it("points packages that are not on CRAN at GitHub main", {
     local_sources(c(ggsegFuture = "ggsegverse"))
-    expect_equal(
+    expect_identical(
       description_url("ggsegFuture"),
       paste0(
         "https://raw.githubusercontent.com/ggsegverse/",
@@ -207,6 +207,6 @@ describe("description_url()", {
 
 describe("r_version_string()", {
   it("returns the running R version string", {
-    expect_equal(r_version_string(), R.version.string)
+    expect_identical(r_version_string(), R.version.string)
   })
 })

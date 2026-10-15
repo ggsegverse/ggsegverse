@@ -7,7 +7,7 @@ describe("package_version_string()", {
 
   it("returns not installed for missing package", {
     v <- package_version_string("notarealpackage999")
-    expect_equal(v, "[not installed]")
+    expect_identical(v, "[not installed]")
   })
 })
 
@@ -64,7 +64,7 @@ describe("ggsegverse_attach_message()", {
         c("ggseg", "ggseg.formats", "ggseg3d", "ggplot2")
       }
     )
-    lines <- strsplit(ggsegverse_attach_message(), "\n")[[1]][-1]
+    lines <- strsplit(ggsegverse_attach_message(), "\n", fixed = TRUE)[[1]][-1]
     offsets <- vapply(
       lines,
       function(line) {

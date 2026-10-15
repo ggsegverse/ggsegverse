@@ -28,7 +28,7 @@
 #' ggseg_atlas_repos("yeo")
 #' }
 ggseg_atlas_repos <- function(pattern = NULL, ...) {
-  api_url <- paste0(universe_url(), "/api/packages")
+  api_url <- file.path(universe_url(), "api", "packages")
   resp <- tryCatch(
     httr2::request(api_url) |>
       httr2::req_user_agent(ggsegverse_user_agent()) |>
@@ -66,35 +66,6 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
     repos <- repos[grepl(pattern, repos$package, ...), , drop = FALSE]
   }
   repos
-}
-
-atlas_repos_columns <- function() {
-  c("Package", "Version", "Title", "Description", "License", "URL")
-}
-
-atlas_repos_table <- function(resp) {
-  repos <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-  cols <- atlas_repos_columns()
-  absent <- setdiff(cols, names(repos))
-  if (!is.data.frame(repos) || length(absent) > 0) {
-    cli::cli_abort(
-      "The package index is not a table with columns {.field {cols}}.",
-      call = NULL
-    )
-  }
-
-  repos <- repos[is_atlas_package(repos$Package), cols, drop = FALSE]
-  repos <- as_tibble(repos)
-  names(repos) <- tolower(names(repos))
-  repos
-}
-
-universe_url <- function() {
-  "https://ggsegverse.r-universe.dev"
-}
-
-is_atlas_package <- function(pkg) {
-  grepl("^ggseg[A-Z]", pkg)
 }
 
 
@@ -192,39 +163,6 @@ install_ggseg_atlas_all <- function(..., ask = TRUE) {
   install_ggseg_atlas(packages, ..., ask = FALSE)
 }
 
-check_atlas_packages <- function(package, call = rlang::caller_env()) {
-  if (!is.character(package) || length(package) == 0) {
-    cli::cli_abort(
-      "{.arg package} must be a character vector of atlas package names.",
-      call = call
-    )
-  }
-  bad <- package[!is_atlas_package(package)]
-  if (length(bad) > 0) {
-    cli::cli_abort(
-      c(
-        "{.val {bad}} {?is not an atlas package/are not atlas packages}.",
-        i = "Atlas packages are named {.code ggseg<Atlas>}, as listed by
-             {.fun ggseg_atlas_repos}.",
-        i = "To install anything else, call {.fun pak::pak} directly."
-      ),
-      call = call
-    )
-  }
-  invisible(package)
-}
-
-confirm_install <- function(packages) {
-  cli::cli_inform(c(
-    "!" = paste(
-      "About to install {length(packages)} atlas package{?s} from the",
-      "ggsegverse r-universe."
-    ),
-    i = "This downloads a large amount of data and takes a long time."
-  ))
-  utils::menu(c("Yes", "No"), title = "Continue?") == 1L
-}
-
 
 #' List installed ggseg atlas packages
 #'
@@ -266,6 +204,69 @@ installed_ggseg_atlases <- function() {
     installed = installed[found],
     available = available$version[found]
   )
+}
+
+
+atlas_repos_columns <- function() {
+  c("Package", "Version", "Title", "Description", "License", "URL")
+}
+
+atlas_repos_table <- function(resp) {
+  repos <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+  cols <- atlas_repos_columns()
+  absent <- setdiff(cols, names(repos))
+  if (!is.data.frame(repos) || length(absent) > 0) {
+    cli::cli_abort(
+      "The package index is not a table with columns {.field {cols}}.",
+      call = NULL
+    )
+  }
+
+  repos <- repos[is_atlas_package(repos$Package), cols, drop = FALSE]
+  repos <- as_tibble(repos)
+  names(repos) <- tolower(names(repos))
+  repos
+}
+
+universe_url <- function() {
+  "https://ggsegverse.r-universe.dev"
+}
+
+is_atlas_package <- function(pkg) {
+  grepl("^ggseg[A-Z]", pkg)
+}
+
+check_atlas_packages <- function(package, call = rlang::caller_env()) {
+  if (!is.character(package) || length(package) == 0) {
+    cli::cli_abort(
+      "{.arg package} must be a character vector of atlas package names.",
+      call = call
+    )
+  }
+  bad <- package[!is_atlas_package(package)]
+  if (length(bad) > 0) {
+    cli::cli_abort(
+      c(
+        "{.val {bad}} {?is not an atlas package/are not atlas packages}.",
+        i = "Atlas packages are named {.code ggseg<Atlas>}, as listed by
+             {.fun ggseg_atlas_repos}.",
+        i = "To install anything else, call {.fun pak::pak} directly."
+      ),
+      call = call
+    )
+  }
+  invisible(package)
+}
+
+confirm_install <- function(packages) {
+  cli::cli_inform(c(
+    "!" = paste(
+      "About to install {length(packages)} atlas package{?s} from the",
+      "ggsegverse r-universe."
+    ),
+    i = "This downloads a large amount of data and takes a long time."
+  ))
+  utils::menu(c("Yes", "No"), title = "Continue?") == 1L
 }
 
 empty_atlas_versions <- function() {

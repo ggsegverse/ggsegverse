@@ -37,6 +37,34 @@ ggsegverse_conflicts <- function() {
   structure(conflicts, class = "ggsegverse_conflicts")
 }
 
+#' @export
+print.ggsegverse_conflicts <- function(x, ...) {
+  if (length(x) == 0) {
+    cli::cli_inform("No conflicts detected.")
+  } else {
+    rlang::inform(format(x))
+  }
+  invisible(x)
+}
+
+#' @export
+format.ggsegverse_conflicts <- function(x, ...) {
+  if (length(x) == 0) {
+    return("")
+  }
+
+  header <- cli::rule(
+    left = cli::style_bold("Conflicts"),
+    right = "ggsegverse_conflicts()"
+  )
+  bullets <- unlist(Map(format_conflict, x, names(x)), use.names = FALSE)
+  hint <- paste0(
+    cli::col_cyan(cli::symbol$info),
+    " Use the conflicted package to force all conflicts to become errors"
+  )
+  paste(c(header, bullets, hint), collapse = "\n")
+}
+
 by_search_order <- function(pkgs) {
   pkgs[order(match(pkgs, search()))]
 }
@@ -73,34 +101,6 @@ ls_env <- function(env) {
   )
 }
 
-#' @export
-print.ggsegverse_conflicts <- function(x, ...) {
-  if (length(x) == 0) {
-    cli::cli_inform("No conflicts detected.")
-  } else {
-    rlang::inform(format(x))
-  }
-  invisible(x)
-}
-
-#' @export
-format.ggsegverse_conflicts <- function(x, ...) {
-  if (length(x) == 0) {
-    return("")
-  }
-
-  header <- cli::rule(
-    left = cli::style_bold("Conflicts"),
-    right = "ggsegverse_conflicts()"
-  )
-  bullets <- unlist(Map(format_conflict, x, names(x)), use.names = FALSE)
-  hint <- paste0(
-    cli::col_cyan(cli::symbol$info),
-    " Use the conflicted package to force all conflicts to become errors"
-  )
-  paste(c(header, bullets, hint), collapse = "\n")
-}
-
 format_conflict <- function(conflict, name) {
   qualify <- function(pkg) {
     paste0(cli::col_blue(sub("^package:", "", pkg)), "::", name)
@@ -110,6 +110,6 @@ format_conflict <- function(conflict, name) {
     " ",
     qualify(conflict$winner),
     " masks ",
-    paste(vapply(conflict$masked, qualify, character(1)), collapse = ", ")
+    toString(vapply(conflict$masked, qualify, character(1)))
   )
 }

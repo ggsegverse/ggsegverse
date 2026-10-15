@@ -1,4 +1,9 @@
 #' @keywords internal
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggseg GeomBrain
+#' @importFrom ggseg.formats as_brain_atlas
+#' @importFrom ggseg.meshes available_cortical_surfaces
+#' @importFrom ggseg3d add_glassbrain
 #' @details
 #' `library(ggsegverse)` attaches the core packages:
 #'
@@ -16,13 +21,3 @@
 #' `ggsegverse.quiet`: set to `TRUE` to suppress the startup message when
 #' loading ggsegverse. Default is `FALSE`.
 "_PACKAGE"
-
-# nocov start
-ignore_unused_imports <- function() {
-  ggseg.formats::as_brain_atlas
-  ggseg::GeomBrain
-  ggplot2::ggplot
-  ggseg3d::add_glassbrain
-  ggseg.meshes::available_cortical_surfaces
-}
-# nocov end

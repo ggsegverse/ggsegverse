@@ -33,7 +33,7 @@ describe("core_packages", {
   it("returns a character vector", {
     pkgs <- core_packages()
     expect_type(pkgs, "character")
-    expect_true(length(pkgs) >= 4)
+    expect_gte(length(pkgs), 4)
   })
 
   it("contains all expected packages", {
@@ -48,7 +48,11 @@ describe("core_packages", {
 describe("core_package_sources()", {
   it("lists every core package in DESCRIPTION Imports", {
     imports <- utils::packageDescription("ggsegverse")$Imports
-    imports <- trimws(sub("\\(.*", "", strsplit(imports, ",")[[1]]))
+    imports <- trimws(sub(
+      "\\(.*",
+      "",
+      strsplit(imports, ",", fixed = TRUE)[[1]]
+    ))
     expect_true(all(core_packages() %in% imports))
   })
 
@@ -59,7 +63,7 @@ describe("core_package_sources()", {
 
 describe("installed_version()", {
   it("returns the version of an installed package", {
-    expect_equal(
+    expect_identical(
       installed_version("testthat"),
       as.character(packageVersion("testthat"))
     )
@@ -83,6 +87,6 @@ describe("invert", {
   })
 
   it("returns empty list for empty input", {
-    expect_equal(invert(list()), list())
+    expect_identical(invert(list()), list())
   })
 })
