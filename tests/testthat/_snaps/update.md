@@ -64,9 +64,9 @@
       * ggseg (0.1.0 -> 1.0.0)
       
       Update with:
-      pak::pak(c('ggsegverse/ggseg'))
+      pak::pak(c('ggseg'))
 
-# ggsegverse_update() / suggests CRAN and GitHub refs together
+# ggsegverse_update() / suggests a pak call for several packages at once
 
     Code
       ggsegverse_update()
@@ -78,5 +78,5 @@
       * ggplot2 (3.5.0 -> 4.0.0)
       
       Update with:
-      pak::pak(c('ggsegverse/ggseg', 'ggplot2'))
+      pak::pak(c('ggseg', 'ggplot2'))
 

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggsegverse
+# ggsegverse <img src="man/figures/logo.png" align="right" height="138" alt="ggsegverse hex logo" />
 
 <!-- badges: start -->
 
@@ -35,9 +35,26 @@ Loading ggsegverse attaches the following packages:
 ggsegverse is for plotting. To build your own atlases, install
 [ggseg.extra](https://ggsegverse.github.io/ggseg.extra/) separately.
 
+## What ggsegverse adds
+
+Beyond attaching those packages, ggsegverse manages the ecosystem: it
+finds and installs atlas packages from the [ggsegverse
+r-universe](https://ggsegverse.r-universe.dev) (`ggseg_atlas_repos()`,
+`installed_ggseg_atlases()`, `install_ggseg_atlas()`,
+`install_ggseg_atlas_all()`), reports what you have against what is
+available (`ggsegverse_packages()`, `ggsegverse_deps()`,
+`ggsegverse_sitrep()`, `ggsegverse_update()`), and reports masking
+between the core packages (`ggsegverse_conflicts()`).
+
 ## Installation
 
-You can install ggsegverse from
+Install the released version from CRAN:
+
+``` r
+install.packages("ggsegverse")
+```
+
+Or the development version from
 [GitHub](https://github.com/ggsegverse/ggsegverse):
 
 ``` r
@@ -45,8 +62,8 @@ You can install ggsegverse from
 pak::pak("ggsegverse/ggsegverse")
 ```
 
-This will also install all core packages that are not already on your
-system.
+Either route also installs all core packages that are not already on
+your system.
 
 ## Usage
 
@@ -57,9 +74,9 @@ conflicts:
 ``` r
 library(ggsegverse)
 #> ── ggsegverse ───────────────────────────────────────────────────────── 0.0.1 ──
-#> ✔ ggseg.formats 0.0.4.9006 ✔ ggseg.meshes 0.0.1.9000
-#> ✔ ggseg 2.2.1.9007 ✔ ggplot2 4.0.3
-#> ✔ ggseg3d 2.1.2.9003
+#> ✔ ggseg.formats 0.0.4.9008 ✔ ggseg.meshes 0.0.1.9000
+#> ✔ ggseg 2.2.1.9007         ✔ ggplot2 4.0.3
+#> ✔ ggseg3d 2.1.3
 ```
 
 ### Find and install atlases
@@ -68,9 +85,17 @@ More atlases live on the [ggsegverse
 r-universe](https://ggsegverse.r-universe.dev):
 
 ``` r
+# which Yeo atlases are published?
 ggseg_atlas_repos("yeo")
+
+# install one
 install_ggseg_atlas("ggsegYeo2011")
+
+# what do I have, and is it current?
 installed_ggseg_atlases()
+
+# everything at once (asks first; pass ask = FALSE in scripts)
+install_ggseg_atlas_all()
 ```
 
 ### Check for outdated packages
@@ -78,19 +103,19 @@ installed_ggseg_atlases()
 ``` r
 ggsegverse_sitrep()
 #> 
-#> ── ggsegverse situation report ─────────────────────────────────────────────────
+#> -- ggsegverse situation report --------------------------------------------
 #> 
-#> ── Installed packages ──
+#> -- Installed packages --
 #> 
-#> ✔ ggseg.formats: 0.0.4.9006
-#> ✔ ggseg: 2.2.1.9007
-#> ✔ ggseg3d: 2.1.2.9003
-#> ✔ ggseg.meshes: 0.0.1.9000
-#> ✔ ggplot2: 4.0.3
+#> v ggseg.formats: 0.0.4
+#> v ggseg: 2.2.1
+#> v ggseg3d: 2.1.2
+#> v ggseg.meshes: 0.0.1
+#> v ggplot2: 4.0.3
 #> 
-#> ── R version ──
+#> -- R version --
 #> 
-#> R version 4.6.1 (2026-06-24)
+#> R version 4.6.1 (2026-06-30)
 ```
 
 ### List namespace conflicts

@@ -9,3 +9,8 @@
 ^pkgdown$
 ^codemeta\.json$
 ^\.lintr$
+^cran-comments\.md$
+^revdep$
+^.*\.Rcheck$
+^.*\.tar\.gz$
+^data-raw$

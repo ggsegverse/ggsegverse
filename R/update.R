@@ -6,11 +6,16 @@
 #'
 #' @return The rows of [ggsegverse_deps()] that are out of date
 #'   (invisibly), or `NULL` invisibly when everything is current.
+#' @family diagnostics
 #' @seealso [ggsegverse_sitrep()] for a full overview.
 #' @export
 #' @examples
 #' \dontrun{
 #' ggsegverse_update()
+#' #> -- The following packages are out of date: --
+#' #> * ggseg (2.2.1 -> 2.3.0)
+#' #> Update with:
+#' #> pak::pak(c('ggseg'))
 #' }
 ggsegverse_update <- function() {
   deps <- ggsegverse_deps()
@@ -42,17 +47,20 @@ ggsegverse_update <- function() {
 #' List ggsegverse package dependencies and versions
 #'
 #' Compares the installed version of each core package with the latest
-#' available version. ggsegverse packages are checked against the
-#' `main` branch on GitHub; ggplot2 is checked against CRAN. Requires
-#' an internet connection; versions that cannot be retrieved are `NA`.
+#' version released on CRAN. Requires an internet connection; versions
+#' that cannot be retrieved are `NA`.
 #'
 #' @return A data frame with columns `package`, `local` (installed
 #'   version, `NA` if not installed), `available` (latest version, `NA`
 #'   if it could not be retrieved), and `behind` (logical).
+#' @family diagnostics
 #' @export
 #' @examples
 #' \dontrun{
 #' ggsegverse_deps()
+#' #>         package local available behind
+#' #> 1 ggseg.formats  1.0.0     1.0.0  FALSE
+#' #> 2         ggseg  2.2.1     2.3.0   TRUE
 #' }
 ggsegverse_deps <- function() {
   pkgs <- core_packages()
@@ -82,11 +90,19 @@ ggsegverse_deps <- function() {
 #' to include when reporting a bug.
 #'
 #' @return The data frame from [ggsegverse_deps()], invisibly.
+#' @family diagnostics
 #' @seealso [ggsegverse_update()] to get the update command.
 #' @export
 #' @examples
 #' \dontrun{
 #' ggsegverse_sitrep()
+#' #> -- ggsegverse situation report --
+#' #> -- Installed packages --
+#' #> v ggseg.formats: 1.0.0
+#' #> ! ggseg: 2.2.1 (update available: 2.3.0)
+#' #> x ggseg3d: not installed
+#' #> -- R version --
+#' #> R version 4.5.1 (2025-06-13)
 #' }
 ggsegverse_sitrep <- function() {
   cli::cli_h1("ggsegverse situation report")
@@ -129,6 +145,7 @@ is_behind <- function(local, available) {
 remote_versions <- function(pkgs) {
   reqs <- lapply(pkgs, function(pkg) {
     httr2::request(description_url(pkg)) |>
+      httr2::req_user_agent(ggsegverse_user_agent()) |>
       httr2::req_timeout(10)
   })
   resps <- httr2::req_perform_parallel(

@@ -10,15 +10,15 @@
 #' ambiguous call an error instead, use the conflicted package.
 #'
 #' @return A `ggsegverse_conflicts` object: a named list, one element per
-#'   conflicting name, each holding the `winner` package and the `masked`
-#'   packages.
+#'   conflicting name, each holding the `winner` package (the one earliest
+#'   on the search path) and the `masked` packages.
 #' @export
 #' @examples
 #' ggsegverse_conflicts()
 ggsegverse_conflicts <- function() {
   envs <- grep("^package:", search(), value = TRUE)
   names(envs) <- envs
-  objs <- invert(lapply(envs, ls_env))
+  objs <- lapply(invert(lapply(envs, ls_env)), by_search_order)
 
   ggseg_pkgs <- paste0("package:", ggsegverse_packages())
   candidates <- Filter(
@@ -65,6 +65,10 @@ format.ggsegverse_conflicts <- function(x, ...) {
   paste(c(header, bullets, hint), collapse = "\n")
 }
 
+by_search_order <- function(pkgs) {
+  pkgs[order(match(pkgs, search()))]
+}
+
 confirm_conflict <- function(pkgs, name, ggseg_pkgs) {
   winner <- pkgs[[1]]
   winner_obj <- pkg_object(winner, name)
@@ -90,8 +94,7 @@ pkg_object <- function(pkg, name) {
 ls_env <- function(env) {
   tryCatch(
     {
-      ns <- asNamespace(gsub("package:", "", env, fixed = TRUE))
-      x <- .getNamespaceInfo(ns, "exports")
+      x <- .getNamespaceInfo(asNamespace(sub("^package:", "", env)), "exports")
       if (inherits(x, "environment")) ls(x) else character()
     },
     error = function(e) character()
