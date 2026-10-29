@@ -7,7 +7,8 @@
 ggsegverse_packages(include_self = FALSE)
 }
 \arguments{
-\item{include_self}{Whether to include ggsegverse itself in the list.}
+\item{include_self}{Whether to include ggsegverse itself in the list.
+Defaults to \code{FALSE}.}
 }
 \value{
 A character vector of package names.
