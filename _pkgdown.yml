@@ -10,10 +10,7 @@ reference:
   - title: Atlases
     desc: Find and install atlas packages from the ggsegverse r-universe.
     contents:
-      - ggseg_atlas_repos
-      - install_ggseg_atlas
-      - install_ggseg_atlas_all
-      - installed_ggseg_atlases
+      - matches("ggseg_atlas")
   - title: Versions and updates
     contents:
       - ggsegverse_sitrep
