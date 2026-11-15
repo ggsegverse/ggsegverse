@@ -9,9 +9,9 @@ you need to go from statistics to publication-ready brain figures in R.
 ``` r
 
 library(ggsegverse)
-#> ── ggsegverse ──────────────────────────────────────────────────── 0.0.1.9000 ──
+#> ── ggsegverse ──────────────────────────────────────────────────── 0.0.1.9001 ──
 #> ✔ ggseg.formats 0.0.4 ✔ ggseg.meshes 0.0.1
-#> ✔ ggseg 2.2.1 ✔ ggplot2 4.0.3
+#> ✔ ggseg 2.2.1 ✔ ggplot2 4.0.4
 #> ✔ ggseg3d 2.1.2
 ```
 
