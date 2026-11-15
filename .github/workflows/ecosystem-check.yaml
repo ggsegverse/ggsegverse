@@ -17,4 +17,6 @@ permissions:
 jobs:
   ecosystem-check:
     uses: ggsegverse/.github/.github/workflows/ecosystem-check.yaml@main
+    with:
+      extra-repositories: https://ggsegverse.r-universe.dev
     secrets: inherit
