@@ -2,6 +2,15 @@
 
 ## ggsegverse (development version)
 
+### Bug fixes
+
+- The core packages are pinned. They were imported unversioned, so
+  installing ggsegverse on a machine with older copies upgraded nothing
+  and loaded an incoherent set – including a `ggseg.formats` whose
+  `tracula` was mirrored left-to-right, which ggseg3d would then draw
+  with the hemispheres swapped. A meta-package whose job is a coherent
+  install has to say which versions are coherent.
+
 - Initial development version.
 
 - [`library(ggsegverse)`](https://ggsegverse.github.io/ggsegverse/)
