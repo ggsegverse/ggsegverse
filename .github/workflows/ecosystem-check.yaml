@@ -15,6 +15,24 @@ permissions:
   contents: read
 
 jobs:
+  # What this gate is for HERE is not what its name suggests. The shared
+  # smoke test attaches ggseg.formats, ggseg.extra, ggseg and ggseg3d and
+  # renders dk() -- it never attaches ggsegverse or calls anything in it, and
+  # both renderers run the same check in their own repos. So the rendering
+  # half tells us nothing about a change made here.
+  #
+  # The half that matters is the install: the reusable builds every sibling
+  # from main, where R-CMD-check installs them from r-universe. For a package
+  # whose entire content is version pins, that is the difference between "do
+  # my pins resolve against what is published" and "do they resolve against
+  # main" -- and the second is the only gate that can go green for a pin on a
+  # dev version that is merged but not yet built. Pinning ahead of an
+  # r-universe build is the normal case for a cross-package change here.
+  #
+  # Which is also why this caller needs extra-repositories rather than being
+  # exempt from it: ggseg.meshes is the one ecosystem package the reusable
+  # does not check out and is not on CRAN, and resolving the pins is the
+  # whole point of running this.
   ecosystem-check:
     uses: ggsegverse/.github/.github/workflows/ecosystem-check.yaml@main
     with:
