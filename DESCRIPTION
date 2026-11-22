@@ -18,7 +18,7 @@ Description: Installs and loads the core packages of the 'ggsegverse',
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
-    R (>= 4.1)
+    R (>= 4.2.0)
 Imports:
     ggseg.formats (>= 0.0.4.9032),
     ggseg (>= 2.2.1.9018),
