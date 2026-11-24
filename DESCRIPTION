@@ -20,7 +20,7 @@ Encoding: UTF-8
 Depends:
     R (>= 4.2.0)
 Imports:
-    ggseg.formats (>= 0.0.4.9033),
+    ggseg.formats (>= 0.0.4.9032),
     ggseg (>= 2.2.1.9021),
     ggseg3d (>= 2.1.2.9016),
     ggseg.meshes (>= 0.0.1.9002),
