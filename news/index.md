@@ -4,6 +4,10 @@
 
 ### Bug fixes
 
+- Requires R \>= 4.2, which is the floor of `S7`, and so of
+  `ggseg.formats`. The package advertised an older R than its own
+  dependency could install on.
+
 - The core packages are pinned. They were imported unversioned, so
   installing ggsegverse on a machine with older copies upgraded nothing
   and loaded an incoherent set – including a `ggseg.formats` whose
