@@ -29,9 +29,14 @@ describe("ggsegverse_attach()", {
     # attached them, so without it the assertion is true before the call.
     attached <- paste0("package:", core_packages())
     on.exit(ggsegverse_attach(), add = TRUE)
+    # nolint start: attach_detach_linter.
+    # Detaching is the subject of this test, not a shortcut: the function
+    # under test attaches, so there is no way to observe it without first
+    # taking the packages back off the search path.
     for (pkg in rev(intersect(attached, search()))) {
       detach(pkg, character.only = TRUE)
     }
+    # nolint end
     expect_false(any(attached %in% search()))
 
     ggsegverse_attach()

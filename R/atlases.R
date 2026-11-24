@@ -129,8 +129,7 @@ install_ggseg_atlas_all <- function(...) {
 #' installed_ggseg_atlases()
 #' }
 installed_ggseg_atlases <- function() {
-  pkgs <- unname(utils::installed.packages()[, "Package"])
-  pkgs <- sort(pkgs[is_atlas_package(pkgs)])
+  pkgs <- installed_atlas_packages()
   available <- tryCatch(ggseg_atlas_repos(), error = function(e) NULL)
   dplyr::tibble(
     package = pkgs,
@@ -155,4 +154,21 @@ universe_url <- function() {
 
 is_atlas_package <- function(pkg) {
   grepl("^ggseg[A-Z]", pkg)
+}
+
+
+#' The atlas packages present in the library paths
+#'
+#' Reads the library directories rather than `utils::installed.packages()`,
+#' which parses every installed package's DESCRIPTION to answer a question
+#' about names. The DESCRIPTION check keeps a stray directory from being
+#' reported as an atlas with no version.
+#' @noRd
+installed_atlas_packages <- function() {
+  found <- unlist(lapply(.libPaths(), function(lib) {
+    pkgs <- dir(lib)
+    pkgs <- pkgs[is_atlas_package(pkgs)]
+    pkgs[file.exists(file.path(lib, pkgs, "DESCRIPTION"))]
+  }))
+  sort(unique(found))
 }
