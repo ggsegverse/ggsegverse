@@ -9,12 +9,14 @@ installed_ggseg_atlases()
 \value{
 A tibble with one row per installed atlas package and columns
 \code{package}, \code{installed} (local version), and \code{available} (version on
-the r-universe).
+the r-universe, or \code{NA} if the r-universe cannot be reached or does
+not host the package).
 }
 \description{
-Check which ggseg atlas packages from the ggsegverse r-universe are
-currently installed on your system, and how their versions compare to
-what is available.
+Check which ggseg atlas packages are currently installed on your
+system, and how their versions compare to what the ggsegverse
+r-universe offers. The list of installed packages is read from your
+library, so atlases you built yourself are included too.
 }
 \examples{
 \dontrun{

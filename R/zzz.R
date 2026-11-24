@@ -1,9 +1,6 @@
 # nocov start
 .onAttach <- function(...) {
   ggsegverse_attach()
-  if (is_loading_for_tests()) {
-    return()
-  }
   if (isTRUE(getOption("ggsegverse.quiet"))) {
     return()
   }

@@ -2,6 +2,23 @@
 
 ## Bug fixes
 
+- The documented install now works: `Additional_repositories` declares the
+  ggsegverse r-universe, and the README installs from it. Nothing on CRAN can
+  satisfy a dev-version floor, so the old `pak::pak()` line could only fail.
+- Raised the core package floors to the current development versions.
+  They were stale, and a floor pairing `ggseg.meshes` before 0.0.1.9002 with
+  `ggseg3d` after 2.1.2.9010 renders the cortex rotated 90 degrees in silence.
+- `ggseg_atlas_repos()` aborts with a readable message when the r-universe
+  returns a body that is not a package table, instead of
+  "incorrect number of dimensions".
+- `ggseg_atlas_repos()` filters with `grepl()`, so `value = TRUE` errors
+  rather than returning a row of `NA`.
+- `installed_ggseg_atlases()` reads your library rather than the r-universe,
+  so it works offline and lists atlases you installed from elsewhere;
+  `available` is `NA` when the r-universe cannot be reached.
+- The `ggsegverse` vignette maps data on `label`, not `region`. `region`
+  repeats across hemispheres, so the example filled both of them.
+
 - Requires R >= 4.2, which is the floor of `S7`, and so of `ggseg.formats`.
   The package advertised an older R than its own dependency could install on.
 

@@ -48,17 +48,15 @@ ggsegverse_attach_message <- function() {
   paste0(header, "\n", paste(info, collapse = "\n"))
 }
 
-package_version_string <- function(pkg) {
-  v <- installed_version(pkg)
-  if (is.na(v)) "[not installed]" else v
-}
-
 format_package_line <- function(pkg) {
-  v <- package_version_string(pkg)
-  mark <- if (v == "[not installed]") {
+  v <- installed_version(pkg)
+  mark <- if (is.na(v)) {
     cli::col_red(cli::symbol$cross)
   } else {
     cli::col_green(cli::symbol$tick)
+  }
+  if (is.na(v)) {
+    v <- "[not installed]"
   }
   paste0(mark, " ", cli::col_blue(pkg), " ", v)
 }

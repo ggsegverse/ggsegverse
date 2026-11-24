@@ -23,6 +23,29 @@ describe("ggseg_atlas_repos()", {
     expect_identical(ggseg_atlas_repos()$package, "ggsegYeo2011")
   })
 
+  it("errors when the r-universe body is not a package table", {
+    local_mocked_bindings(
+      req_perform = function(...) structure(list(), class = "httr2_response"),
+      resp_body_json = function(...) list(),
+      .package = "httr2"
+    )
+    expect_error(ggseg_atlas_repos(), "Could not read the package list")
+  })
+
+  it("errors when the r-universe body is missing a column", {
+    local_mocked_bindings(
+      req_perform = function(...) structure(list(), class = "httr2_response"),
+      resp_body_json = function(...) data.frame(Package = "ggsegYeo"),
+      .package = "httr2"
+    )
+    expect_error(ggseg_atlas_repos(), "Could not read the package list")
+  })
+
+  it("rejects grep arguments that would change what it returns", {
+    local_universe(c("ggsegYeo", "ggsegDKT"))
+    expect_error(ggseg_atlas_repos("Yeo", value = TRUE))
+  })
+
   it("errors with a clear message when the r-universe is unreachable", {
     local_mocked_bindings(
       req_perform = function(...) stop("Could not resolve host"),
@@ -105,36 +128,46 @@ describe("install_ggseg_atlas_all()", {
 })
 
 describe("installed_ggseg_atlases()", {
-  it("returns installed atlases with local and available versions", {
+  # These treat two base packages as atlases so that the package list comes
+  # from the real library rather than from a fixture that could only agree
+  # with itself.
+  it("reads the installed atlases from the library, not from the r-universe", {
     local_mocked_bindings(
+      is_atlas_package = function(pkg) pkg %in% c("stats", "utils"),
       ggseg_atlas_repos = function(...) {
-        dplyr::tibble(
-          package = c("ggsegYeo2011", "ggsegHO", "ggsegGlasser"),
-          version = c("2.0.0", "1.5.0", "1.0.0")
-        )
-      },
-      installed_version = function(pkg) {
-        switch(pkg, ggsegYeo2011 = "1.0.0", ggsegHO = "1.5.0", NA_character_)
+        dplyr::tibble(package = "utils", version = "9.9.9")
       }
     )
 
     result <- installed_ggseg_atlases()
     expect_s3_class(result, "tbl_df")
     expect_named(result, c("package", "installed", "available"))
-    expect_identical(result$package, c("ggsegYeo2011", "ggsegHO"))
-    expect_identical(result$installed, c("1.0.0", "1.5.0"))
-    expect_identical(result$available, c("2.0.0", "1.5.0"))
+    expect_identical(result$package, c("stats", "utils"))
+    expect_identical(
+      result$installed,
+      c(
+        as.character(utils::packageVersion("stats")),
+        as.character(utils::packageVersion("utils"))
+      )
+    )
+    expect_identical(result$available, c(NA_character_, "9.9.9"))
   })
 
-  it("returns empty tibble when no atlases installed", {
+  it("still lists local atlases when the r-universe cannot be reached", {
     local_mocked_bindings(
-      ggseg_atlas_repos = function(...) {
-        dplyr::tibble(
-          package = c("ggsegFake1", "ggsegFake2"),
-          version = "0.1.0"
-        )
-      },
-      installed_version = function(pkg) NA_character_
+      is_atlas_package = function(pkg) pkg %in% c("stats", "utils"),
+      ggseg_atlas_repos = function(...) stop("offline")
+    )
+
+    result <- installed_ggseg_atlases()
+    expect_identical(result$package, c("stats", "utils"))
+    expect_identical(result$available, c(NA_character_, NA_character_))
+  })
+
+  it("returns an empty tibble when no atlases are installed", {
+    local_mocked_bindings(
+      is_atlas_package = function(pkg) rep(FALSE, length(pkg)),
+      ggseg_atlas_repos = function(...) stop("offline")
     )
 
     result <- installed_ggseg_atlases()

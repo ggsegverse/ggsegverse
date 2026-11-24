@@ -11,7 +11,7 @@
 #'
 #' @param pattern Optional regex to filter packages by name (e.g., `"yeo"`
 #'   to find Yeo atlas packages).
-#' @param ... Additional arguments passed to [base::grep()].
+#' @param ... Additional arguments passed to [base::grepl()].
 #'
 #' @return A tibble of available atlas packages.
 #' @seealso [install_ggseg_atlas()] to install a specific atlas
@@ -38,23 +38,21 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
       )
     }
   )
+  fields <- c("Package", "Version", "Title", "Description", "License", "URL")
   repos <- httr2::resp_body_json(resp, simplifyVector = TRUE)
-  repos <- repos[is_atlas_package(repos$Package), ]
+  if (!is.data.frame(repos) || !all(fields %in% names(repos))) {
+    cli::cli_abort(c(
+      "Could not read the package list from the ggsegverse r-universe.",
+      i = "Served by {.url {api_url}}."
+    ))
+  }
+  repos <- repos[is_atlas_package(repos$Package), fields]
 
   if (!is.null(pattern)) {
-    idx <- grep(pattern, repos$Package, ...)
-    repos <- repos[idx, ]
+    repos <- repos[grepl(pattern, repos$Package, ...), ]
   }
 
   repos <- as_tibble(repos)
-  repos <- repos[, c(
-    "Package",
-    "Version",
-    "Title",
-    "Description",
-    "License",
-    "URL"
-  )]
   names(repos) <- tolower(names(repos))
   repos
 }
@@ -114,13 +112,15 @@ install_ggseg_atlas_all <- function(...) {
 
 #' List installed ggseg atlas packages
 #'
-#' Check which ggseg atlas packages from the ggsegverse r-universe are
-#' currently installed on your system, and how their versions compare to
-#' what is available.
+#' Check which ggseg atlas packages are currently installed on your
+#' system, and how their versions compare to what the ggsegverse
+#' r-universe offers. The list of installed packages is read from your
+#' library, so atlases you built yourself are included too.
 #'
 #' @return A tibble with one row per installed atlas package and columns
 #'   `package`, `installed` (local version), and `available` (version on
-#'   the r-universe).
+#'   the r-universe, or `NA` if the r-universe cannot be reached or does
+#'   not host the package).
 #' @seealso [ggseg_atlas_repos()] to list all available atlases,
 #'   [install_ggseg_atlas()] to install one
 #' @export
@@ -129,18 +129,22 @@ install_ggseg_atlas_all <- function(...) {
 #' installed_ggseg_atlases()
 #' }
 installed_ggseg_atlases <- function() {
-  available <- ggseg_atlas_repos()
-  installed <- vapply(
-    available$package,
-    installed_version,
-    character(1),
-    USE.NAMES = FALSE
-  )
-  found <- !is.na(installed)
+  pkgs <- unname(utils::installed.packages()[, "Package"])
+  pkgs <- sort(pkgs[is_atlas_package(pkgs)])
+  available <- tryCatch(ggseg_atlas_repos(), error = function(e) NULL)
   dplyr::tibble(
-    package = available$package[found],
-    installed = installed[found],
-    available = available$version[found]
+    package = pkgs,
+    installed = vapply(
+      pkgs,
+      installed_version,
+      character(1),
+      USE.NAMES = FALSE
+    ),
+    available = if (is.null(available)) {
+      rep(NA_character_, length(pkgs))
+    } else {
+      available$version[match(pkgs, available$package)]
+    }
   )
 }
 
