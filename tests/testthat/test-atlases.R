@@ -180,8 +180,11 @@ describe("installed_ggseg_atlases()", {
 describe("installed_atlas_packages()", {
   # Both branches below survived mutation: dropping the DESCRIPTION filter and
   # dropping the dedup each left the whole suite green.
-  local_fake_libs <- function(envir = parent.frame()) {
-    lib <- withr::local_tempdir(.local_envir = envir)
+  # Inside tempdir(), which is all CRAN asks, and cleaned with the session.
+  # `withr` would be a new dependency for one test fixture.
+  fake_libs <- function() {
+    lib <- tempfile("fakelib")
+    dir.create(lib)
     dir.create(file.path(lib, "ggsegReal"))
     writeLines(
       c("Package: ggsegReal", "Version: 1.2.3"),
@@ -194,13 +197,13 @@ describe("installed_atlas_packages()", {
   }
 
   it("ignores a directory with no DESCRIPTION", {
-    lib <- local_fake_libs()
+    lib <- fake_libs()
 
     expect_identical(installed_atlas_packages(lib), "ggsegReal")
   })
 
   it("reports a package found in two library paths once", {
-    lib <- local_fake_libs()
+    lib <- fake_libs()
 
     expect_identical(installed_atlas_packages(c(lib, lib)), "ggsegReal")
   })
