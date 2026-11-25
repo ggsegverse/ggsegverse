@@ -180,11 +180,8 @@ describe("installed_ggseg_atlases()", {
 describe("installed_atlas_packages()", {
   # Both branches below survived mutation: dropping the DESCRIPTION filter and
   # dropping the dedup each left the whole suite green.
-  # Inside tempdir(), which is all CRAN asks, and cleaned with the session.
-  # `withr` would be a new dependency for one test fixture.
-  fake_libs <- function() {
-    lib <- tempfile("fakelib")
-    dir.create(lib)
+  fake_libs <- function(envir = parent.frame()) {
+    lib <- withr::local_tempdir(.local_envir = envir)
     dir.create(file.path(lib, "ggsegReal"))
     writeLines(
       c("Package: ggsegReal", "Version: 1.2.3"),
