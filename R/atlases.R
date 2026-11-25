@@ -130,7 +130,20 @@ install_ggseg_atlas_all <- function(...) {
 #' }
 installed_ggseg_atlases <- function() {
   pkgs <- installed_atlas_packages()
-  available <- tryCatch(ggseg_atlas_repos(), error = function(e) NULL)
+  # `available = NA` is documented as "the r-universe does not host it", so a
+  # failed lookup must not quietly produce the same answer for every row.
+  available <- tryCatch(
+    ggseg_atlas_repos(),
+    error = function(e) {
+      cli::cli_warn(c(
+        "Could not list the ggsegverse r-universe.",
+        "x" = conditionMessage(e),
+        "i" = "{.field available} is {.val NA} for every row because the
+          lookup failed, not because the atlas is unpublished."
+      ))
+      NULL
+    }
+  )
   dplyr::tibble(
     package = pkgs,
     installed = vapply(
@@ -164,8 +177,8 @@ is_atlas_package <- function(pkg) {
 #' about names. The DESCRIPTION check keeps a stray directory from being
 #' reported as an atlas with no version.
 #' @noRd
-installed_atlas_packages <- function() {
-  found <- unlist(lapply(.libPaths(), function(lib) {
+installed_atlas_packages <- function(libs = .libPaths()) {
+  found <- unlist(lapply(libs, function(lib) {
     pkgs <- dir(lib)
     pkgs <- pkgs[is_atlas_package(pkgs)]
     pkgs[file.exists(file.path(lib, pkgs, "DESCRIPTION"))]

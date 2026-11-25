@@ -1,5 +1,11 @@
 # ggsegverse (development version)
 
+- `installed_ggseg_atlases()` warns when the r-universe lookup fails instead
+  of reporting `available = NA` for every row, which the documentation says
+  means the atlas is not hosted.
+- `installed_atlas_packages()` takes the library paths, so the
+  `DESCRIPTION` filter and the cross-library dedup are testable.
+
 ## Bug fixes
 
 - The documented install now works: `Additional_repositories` declares the

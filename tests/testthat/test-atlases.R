@@ -175,3 +175,33 @@ describe("installed_ggseg_atlases()", {
     expect_named(result, c("package", "installed", "available"))
   })
 })
+
+
+describe("installed_atlas_packages()", {
+  # Both branches below survived mutation: dropping the DESCRIPTION filter and
+  # dropping the dedup each left the whole suite green.
+  local_fake_libs <- function(envir = parent.frame()) {
+    lib <- withr::local_tempdir(.local_envir = envir)
+    dir.create(file.path(lib, "ggsegReal"))
+    writeLines(
+      c("Package: ggsegReal", "Version: 1.2.3"),
+      file.path(lib, "ggsegReal", "DESCRIPTION")
+    )
+    # A leftover directory with the atlas name shape but no package in it.
+    dir.create(file.path(lib, "ggsegLeftover"))
+    dir.create(file.path(lib, "notanatlas"))
+    lib
+  }
+
+  it("ignores a directory with no DESCRIPTION", {
+    lib <- local_fake_libs()
+
+    expect_identical(installed_atlas_packages(lib), "ggsegReal")
+  })
+
+  it("reports a package found in two library paths once", {
+    lib <- local_fake_libs()
+
+    expect_identical(installed_atlas_packages(c(lib, lib)), "ggsegReal")
+  })
+})
