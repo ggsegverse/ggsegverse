@@ -9,10 +9,10 @@ you need to go from statistics to publication-ready brain figures in R.
 ``` r
 
 library(ggsegverse)
-#> ── ggsegverse ──────────────────────────────────────────────────── 0.0.1.9001 ──
-#> ✔ ggseg.formats 0.0.4.9032 ✔ ggseg.meshes 0.0.1.9002
-#> ✔ ggseg 2.2.1.9021 ✔ ggplot2 4.0.4
-#> ✔ ggseg3d 2.1.2.9016
+#> ── ggsegverse ──────────────────────────────────────────────────── 0.0.1.9002 ──
+#> ✔ ggseg.formats 0.0.4.9033 ✔ ggseg.meshes 0.0.1.9002
+#> ✔ ggseg 2.2.1.9022 ✔ ggplot2 4.0.4
+#> ✔ ggseg3d 2.1.2.9017
 ```
 
 ## What you get
@@ -83,11 +83,11 @@ cortical thickness values for a subset of regions:
 ``` r
 
 my_data <- data.frame(
-  region = c(
-    "precentral",
-    "postcentral",
-    "superiorfrontal",
-    "inferiorparietal"
+  label = c(
+    "lh_precentral",
+    "rh_postcentral",
+    "lh_superiorfrontal",
+    "rh_inferiorparietal"
   ),
   thickness = c(2.6, 2.1, 2.8, 2.4)
 )
@@ -109,8 +109,9 @@ gradient ](ggsegverse_files/figure-html/join-data-1.png)
 
 Cortical thickness mapped onto Desikan-Killiany regions.
 
-`geom_brain()` joins your data to the atlas by the `region` column.
-Regions without data stay grey.
+`geom_brain()` joins your data to the atlas by the `label` column, which
+names one region in one hemisphere. Joining on `region` instead would
+fill both hemispheres from the same row. Regions without data stay grey.
 
 ## Interactive 3D views
 

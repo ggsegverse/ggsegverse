@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggsegverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,9 +96,14 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install ggsegverse from <a href="https://github.com/ggsegverse/ggsegverse" class="external-link">GitHub</a>:</p>
+<p>You can install ggsegverse from GitHub. The <a href="https://ggsegverse.r-universe.dev" class="external-link">ggsegverse r-universe</a> hosts the development versions of the core packages it requires, so point <code>repos</code> at it first or the version floors cannot be satisfied:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  ggsegverse <span class="op">=</span> <span class="st">"https://ggsegverse.r-universe.dev"</span>,</span>
+<span>  CRAN <span class="op">=</span> <span class="st">"https://cloud.r-project.org"</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># ggsegverse itself is not on the r-universe yet, so it comes from GitHub;</span></span>
+<span><span class="co"># the repos above are what let its dev-version floors resolve.</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"ggsegverse/ggsegverse"</span><span class="op">)</span></span></code></pre></div>
 <p>This will also install all core packages that are not already on your system.</p>
 </div>

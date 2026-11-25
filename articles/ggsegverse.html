@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggsegverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,10 +66,10 @@ audience can actually read. ggsegverse exists to close that gap — one
 statistics to publication-ready brain figures in R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggsegverse.github.io/ggsegverse/">ggsegverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">ggsegverse</span> ──────────────────────────────────────────────────── 0.0.1.9001 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg.formats</span> 0.0.4.9032 <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg.meshes</span> 0.0.1.9002</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg</span> 2.2.1.9021 <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2</span> 4.0.4</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg3d</span> 2.1.2.9016</span></span></code></pre></div>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">ggsegverse</span> ──────────────────────────────────────────────────── 0.0.1.9002 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg.formats</span> 0.0.4.9033 <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg.meshes</span> 0.0.1.9002</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg</span> 2.2.1.9022 <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2</span> 4.0.4</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggseg3d</span> 2.1.2.9017</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="what-you-get">What you get<a class="anchor" aria-label="anchor" href="#what-you-get"></a>
 </h2>
@@ -137,11 +137,11 @@ FreeSurfer’s automatic subcortical segmentation atlas.
 you have cortical thickness values for a subset of regions:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>    <span class="st">"precentral"</span>,</span>
-<span>    <span class="st">"postcentral"</span>,</span>
-<span>    <span class="st">"superiorfrontal"</span>,</span>
-<span>    <span class="st">"inferiorparietal"</span></span>
+<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"lh_precentral"</span>,</span>
+<span>    <span class="st">"rh_postcentral"</span>,</span>
+<span>    <span class="st">"lh_superiorfrontal"</span>,</span>
+<span>    <span class="st">"rh_inferiorparietal"</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  thickness <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.6</span>, <span class="fl">2.1</span>, <span class="fl">2.8</span>, <span class="fl">2.4</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -163,7 +163,9 @@ Cortical thickness mapped onto Desikan-Killiany regions.
 </p>
 </div>
 <p><code>geom_brain()</code> joins your data to the atlas by the
-<code>region</code> column. Regions without data stay grey.</p>
+<code>label</code> column, which names one region in one hemisphere.
+Joining on <code>region</code> instead would fill both hemispheres from
+the same row. Regions without data stay grey.</p>
 </div>
 <div class="section level2">
 <h2 id="interactive-3d-views">Interactive 3D views<a class="anchor" aria-label="anchor" href="#interactive-3d-views"></a>

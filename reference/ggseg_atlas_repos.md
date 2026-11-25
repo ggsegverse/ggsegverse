@@ -20,7 +20,7 @@ ggseg_atlas_repos(pattern = NULL, ...)
 - ...:
 
   Additional arguments passed to
-  [`base::grep()`](https://rdrr.io/r/base/grep.html).
+  [`base::grepl()`](https://rdrr.io/r/base/grep.html).
 
 ## Value
 

@@ -26,12 +26,19 @@ ggsegverse is for plotting. To build your own atlases, install
 
 ## Installation
 
-You can install ggsegverse from
-[GitHub](https://github.com/ggsegverse/ggsegverse):
+You can install ggsegverse from GitHub. The [ggsegverse
+r-universe](https://ggsegverse.r-universe.dev) hosts the development
+versions of the core packages it requires, so point `repos` at it first
+or the version floors cannot be satisfied:
 
 ``` r
 
-# install.packages("pak")
+options(repos = c(
+  ggsegverse = "https://ggsegverse.r-universe.dev",
+  CRAN = "https://cloud.r-project.org"
+))
+# ggsegverse itself is not on the r-universe yet, so it comes from GitHub;
+# the repos above are what let its dev-version floors resolve.
 pak::pak("ggsegverse/ggsegverse")
 ```
 

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggsegverse</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,9 +35,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="ggsegverse-development-version">ggsegverse (development version)<a class="anchor" aria-label="anchor" href="#ggsegverse-development-version"></a></h2>
-<div class="section level3">
+<ul><li><p><code><a href="../reference/ggseg_atlas_repos.html">ggseg_atlas_repos()</a></code> works out which packages are atlases from what they declare, not from their name: anything in the universe that builds on <code>ggseg.formats</code> and is not one of our own tools. The payload was already in hand, so this costs no extra request, and it falls back to the name shape if the API stops serving <code>_dependencies</code>.</p></li>
+<li><p><code><a href="../reference/installed_ggseg_atlases.html">installed_ggseg_atlases()</a></code> warns when the r-universe lookup fails instead of reporting <code>available = NA</code> for every row, which the documentation says means the atlas is not hosted.</p></li>
+<li><p><code>installed_atlas_packages()</code> takes the library paths, so the <code>DESCRIPTION</code> filter and the cross-library dedup are testable.</p></li>
+</ul><div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li><p>Requires R &gt;= 4.2, which is the floor of <code>S7</code>, and so of <code>ggseg.formats</code>. The package advertised an older R than its own dependency could install on.</p></li>
+<ul><li><p>The documented install now works: <code>Additional_repositories</code> declares the ggsegverse r-universe, and the README installs from it. Nothing on CRAN can satisfy a dev-version floor, so the old <code><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak::pak()</a></code> line could only fail.</p></li>
+<li><p>Raised the core package floors to the current development versions. They were stale, and a floor pairing <code>ggseg.meshes</code> before 0.0.1.9002 with <code>ggseg3d</code> after 2.1.2.9010 renders the cortex rotated 90 degrees in silence.</p></li>
+<li><p><code><a href="../reference/ggseg_atlas_repos.html">ggseg_atlas_repos()</a></code> aborts with a readable message when the r-universe returns a body that is not a package table, instead of “incorrect number of dimensions”.</p></li>
+<li><p><code><a href="../reference/ggseg_atlas_repos.html">ggseg_atlas_repos()</a></code> filters with <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code>, so <code>value = TRUE</code> errors rather than returning a row of <code>NA</code>.</p></li>
+<li><p><code><a href="../reference/installed_ggseg_atlases.html">installed_ggseg_atlases()</a></code> reads your library rather than the r-universe, so it works offline and lists atlases you installed from elsewhere; <code>available</code> is <code>NA</code> when the r-universe cannot be reached.</p></li>
+<li><p>The <code>ggsegverse</code> vignette maps data on <code>label</code>, not <code>region</code>. <code>region</code> repeats across hemispheres, so the example filled both of them.</p></li>
+<li><p>Requires R &gt;= 4.2, which is the floor of <code>S7</code>, and so of <code>ggseg.formats</code>. The package advertised an older R than its own dependency could install on.</p></li>
 <li><p>The core packages are pinned. They were imported unversioned, so installing ggsegverse on a machine with older copies upgraded nothing and loaded an incoherent set – including a <code>ggseg.formats</code> whose <code>tracula</code> was mirrored left-to-right, which ggseg3d would then draw with the hemispheres swapped. A meta-package whose job is a coherent install has to say which versions are coherent.</p></li>
 <li><p>Initial development version.</p></li>
 <li><p><code><a href="https://ggsegverse.github.io/ggsegverse/">library(ggsegverse)</a></code> attaches the core packages (ggseg.formats, ggseg, ggseg3d, ggseg.meshes, ggplot2) and prints a startup banner. Set <code>options(ggsegverse.quiet = TRUE)</code> to suppress it.</p></li>
