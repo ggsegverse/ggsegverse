@@ -46,7 +46,7 @@ ggseg_atlas_repos <- function(pattern = NULL, ...) {
       i = "Served by {.url {api_url}}."
     ))
   }
-  repos <- repos[is_atlas_package(repos$Package), fields]
+  repos <- repos[universe_atlas_rows(repos), fields]
 
   if (!is.null(pattern)) {
     repos <- repos[grepl(pattern, repos$Package, ...), ]
@@ -167,6 +167,37 @@ universe_url <- function() {
 
 is_atlas_package <- function(pkg) {
   grepl("^ggseg[A-Z]", pkg)
+}
+
+
+#' Which rows of the r-universe package list are atlases
+#'
+#' Derived from what each package declares rather than from its name: an atlas
+#' is anything in the universe that builds on `ggseg.formats` and is not one of
+#' our own tools. Being in OUR universe is what excludes a third-party
+#' `ggsegFoo`, so the only job left is excluding our tooling. The universe also
+#' carries unrelated packages
+#' (`freesurfer`, `neuromapr`, `wbcmd`), which fall out because they do not
+#' depend on `ggseg.formats`.
+#'
+#' Falls back to the name shape if the API stops serving `_dependencies`, so a
+#' payload change degrades rather than returning nothing.
+#' @noRd
+universe_atlas_rows <- function(repos) {
+  deps <- repos[["_dependencies"]]
+  if (is.null(deps) || !is.list(deps)) {
+    return(is_atlas_package(repos$Package))
+  }
+  builds_on_formats <- vapply(
+    deps,
+    function(d) {
+      is.data.frame(d) &&
+        all(c("package", "role") %in% names(d)) &&
+        any(d$package == "ggseg.formats" & d$role %in% c("Imports", "Depends"))
+    },
+    logical(1)
+  )
+  builds_on_formats & !repos$Package %in% ecosystem_packages()
 }
 
 

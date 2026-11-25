@@ -18,7 +18,10 @@ local_deps <- function(
   )
 }
 
-local_universe <- function(pkgs, .env = parent.frame()) {
+# `deps` is a list parallel to `pkgs`, each a character vector of hard
+# dependencies, mirroring the API's `_dependencies`. Omit it to serve a payload
+# without that column, which is the fallback path.
+local_universe <- function(pkgs, deps = NULL, .env = parent.frame()) {
   repos <- data.frame(
     Package = pkgs,
     Version = "1.0.0",
@@ -28,6 +31,16 @@ local_universe <- function(pkgs, .env = parent.frame()) {
     URL = "u",
     stringsAsFactors = FALSE
   )
+  if (!is.null(deps)) {
+    repos[["_dependencies"]] <- lapply(deps, function(d) {
+      data.frame(
+        package = d,
+        version = "*",
+        role = rep("Imports", length(d)),
+        stringsAsFactors = FALSE
+      )
+    })
+  }
   testthat::local_mocked_bindings(
     req_perform = function(...) structure(list(), class = "httr2_response"),
     resp_body_json = function(...) repos,

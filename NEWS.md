@@ -1,5 +1,11 @@
 # ggsegverse (development version)
 
+- `ggseg_atlas_repos()` works out which packages are atlases from what they
+  declare, not from their name: anything in the universe that builds on
+  `ggseg.formats` and is not one of our own tools. The payload was already in
+  hand, so this costs no extra request, and it falls back to the name shape if
+  the API stops serving `_dependencies`.
+
 - `installed_ggseg_atlases()` warns when the r-universe lookup fails instead
   of reporting `available = NA` for every row, which the documentation says
   means the atlas is not hosted.

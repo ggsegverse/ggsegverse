@@ -205,3 +205,45 @@ describe("installed_atlas_packages()", {
     expect_identical(installed_atlas_packages(c(lib, lib)), "ggsegReal")
   })
 })
+
+
+describe("atlas detection from the r-universe payload", {
+  it("picks atlases by what they declare, not by their name", {
+    # `oddlyNamed` builds on ggseg.formats and so is an atlas; `ggsegShaped`
+    # has the atlas name shape but declares nothing, so it is not.
+    local_universe(
+      c("oddlyNamed", "ggsegShaped", "ggsegGlasser"),
+      deps = list("ggseg.formats", "stats", c("R", "ggseg.formats"))
+    )
+
+    expect_setequal(
+      ggseg_atlas_repos()$package,
+      c("oddlyNamed", "ggsegGlasser")
+    )
+  })
+
+  it("excludes our own tooling even though it builds on ggseg.formats", {
+    local_universe(
+      c("ggseg3d", "ggseg.extra", "ggsegGlasser"),
+      deps = list("ggseg.formats", "ggseg.formats", "ggseg.formats")
+    )
+
+    expect_identical(ggseg_atlas_repos()$package, "ggsegGlasser")
+  })
+
+  it("excludes unrelated packages that share the universe", {
+    local_universe(
+      c("freesurfer", "wbcmd", "ggsegGlasser"),
+      deps = list("utils", "utils", "ggseg.formats")
+    )
+
+    expect_identical(ggseg_atlas_repos()$package, "ggsegGlasser")
+  })
+
+  it("falls back to the name shape when the payload has no dependencies", {
+    # A payload change must degrade, not return an empty list.
+    local_universe(c("ggsegGlasser", "freesurfer"))
+
+    expect_identical(ggseg_atlas_repos()$package, "ggsegGlasser")
+  })
+})

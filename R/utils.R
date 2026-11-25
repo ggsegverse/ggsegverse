@@ -28,6 +28,17 @@ core_package_sources <- function() {
   )
 }
 
+#' Every ggsegverse package that is NOT an atlas
+#'
+#' `core_packages()` is the attach set, which deliberately omits `ggseg.extra`
+#' (a build-time tool) and `ggsegverse` itself. Atlas detection needs the wider
+#' "our own tooling" set: inside our universe, anything else that builds on
+#' `ggseg.formats` is an atlas.
+#' @noRd
+ecosystem_packages <- function() {
+  unique(c(core_packages(), "ggseg.extra", "ggsegverse"))
+}
+
 installed_version <- function(pkg) {
   tryCatch(
     as.character(utils::packageVersion(pkg)),
