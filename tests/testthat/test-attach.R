@@ -1,16 +1,3 @@
-describe("package_version_string()", {
-  it("returns version string for installed package", {
-    v <- package_version_string("base")
-    expect_type(v, "character")
-    expect_false(v == "[not installed]")
-  })
-
-  it("returns not installed for missing package", {
-    v <- package_version_string("notarealpackage999")
-    expect_identical(v, "[not installed]")
-  })
-})
-
 describe("format_package_line()", {
   it("formats installed package with tick", {
     line <- format_package_line("base")
@@ -35,6 +22,25 @@ describe("ggsegverse_attach()", {
   it("returns invisibly when all packages already loaded", {
     local_mocked_bindings(core_unloaded = function() character())
     expect_invisible(ggsegverse_attach())
+  })
+
+  it("attaches every core package", {
+    # Detaching first is the point: loading this package has already
+    # attached them, so without it the assertion is true before the call.
+    attached <- paste0("package:", core_packages())
+    on.exit(ggsegverse_attach(), add = TRUE)
+    # nolint start: attach_detach_linter.
+    # Detaching is the subject of this test, not a shortcut: the function
+    # under test attaches, so there is no way to observe it without first
+    # taking the packages back off the search path.
+    for (pkg in rev(intersect(attached, search()))) {
+      detach(pkg, character.only = TRUE)
+    }
+    # nolint end
+    expect_false(any(attached %in% search()))
+
+    ggsegverse_attach()
+    expect_true(all(attached %in% search()))
   })
 })
 

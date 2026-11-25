@@ -10,7 +10,7 @@ ggseg_atlas_repos(pattern = NULL, ...)
 \item{pattern}{Optional regex to filter packages by name (e.g., \code{"yeo"}
 to find Yeo atlas packages).}
 
-\item{...}{Additional arguments passed to \code{\link[base:grep]{base::grep()}}.}
+\item{...}{Additional arguments passed to \code{\link[base:grepl]{base::grepl()}}.}
 }
 \value{
 A tibble of available atlas packages.
